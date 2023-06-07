@@ -1,0 +1,12 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+
+# Notebook
+.ipynb_checkpoints
+profile_default/
+ipython_config.py
+
+# Streamlit secrets
+.streamlit
+
+.envrc
