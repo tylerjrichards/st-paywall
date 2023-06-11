@@ -1,7 +1,7 @@
 import streamlit as st
 import stripe
 
-stripe.api_key = st.secrets["stripe_test_api_key"]
+stripe.api_key = st.secrets["stripe_api_key"]
 def redirect_button(url: str, text: str= None, color="#FD504D"):
     st.sidebar.markdown(
     f"""
