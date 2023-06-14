@@ -2,9 +2,11 @@ import streamlit as st
 import stripe
 
 stripe.api_key = st.secrets["stripe_api_key"]
-def redirect_button(url: str, text: str= None, color="#FD504D"):
+
+
+def redirect_button(url: str, text: str = None, color="#FD504D"):
     st.sidebar.markdown(
-    f"""
+        f"""
     <a href="{url}" target="_blank">
         <div style="
             display: inline-block;
@@ -17,13 +19,13 @@ def redirect_button(url: str, text: str= None, color="#FD504D"):
         </div>
     </a>
     """,
-    unsafe_allow_html=True
+        unsafe_allow_html=True,
     )
 
 
 def get_customer_emails():
     customers = stripe.Customer.list()
     emails = []
-    for i in customers['data']:
-        emails.append(i['email'])
+    for i in customers["data"]:
+        emails.append(i["email"])
     return emails
