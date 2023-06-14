@@ -52,7 +52,6 @@ def markdown_button(
             width: auto;
             user-select: none;
             background-color: {color};
-            background-color: rgb(255, 75, 75);
             color: rgb(255, 255, 255);
             border: 1px solid rgb(255, 75, 75);
             text-decoration: none;
