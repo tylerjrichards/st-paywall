@@ -4,15 +4,16 @@ import urllib.parse
 
 stripe.api_key = st.secrets["stripe_api_key"]
 
+stripe_link = st.secrets["stripe_link"]
+
 
 def redirect_button(
-    url: str,
     text: str,
     customer_email: str,
     color="#FD504D",
 ):
     encoded_email = urllib.parse.quote(customer_email)
-    button_url = f"{url}?prefilled_email={encoded_email}"
+    button_url = f"{stripe_link}?prefilled_email={encoded_email}"
 
     st.sidebar.markdown(
         f"""

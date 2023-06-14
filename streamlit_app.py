@@ -27,11 +27,11 @@ if user_email:
     st.sidebar.write(f"You are logged in as {user_email}")
 
 if user_email not in my_customer_emails:
-    subscribe_link = st.secrets["stripe_link"]
     st.sidebar.write(
-        "Looks like you are not yet subscribed to this app! Click the button below to sub"
+        """Looks like you are not yet subscribed to this app! Click the button below to
+        subscribe"""
     )
-    redirect_button(subscribe_link, text="Subscribe now!", customer_email=user_email)
+    redirect_button(text="Subscribe now!", customer_email=user_email)
     st.stop()
 
 st.write("Congrats, you are subscribed!")
