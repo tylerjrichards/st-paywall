@@ -1,13 +1,22 @@
 import streamlit as st
 import stripe
+import urllib.parse
 
 stripe.api_key = st.secrets["stripe_api_key"]
 
 
-def redirect_button(url: str, text: str = None, color="#FD504D"):
+def redirect_button(
+    url: str,
+    text: str,
+    customer_email: str,
+    color="#FD504D",
+):
+    encoded_email = urllib.parse.quote(customer_email)
+    button_url = f"{url}?prefilled_email={encoded_email}"
+
     st.sidebar.markdown(
         f"""
-    <a href="{url}" target="_blank">
+    <a href="{button_url}" target="_blank">
         <div style="
             display: inline-block;
             padding: 0.5em 1em;
