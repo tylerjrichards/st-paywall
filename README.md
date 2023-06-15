@@ -36,8 +36,6 @@ stripe_api_key = 'sk_test_...'`
 
 By default we link out to creating test subscription links and test api keys (you probably already noticed the 'test' in the Stripe dashboard, the subscription link, and in our example api key). When you launch your app and want folks to pay real money, you will need to create production links and api keys from your [Stripe dashboard](https://dashboard.stripe.com) and use those instead.
 
-
-
 ### Google
 
 In order to set up your Google Oauth, you need to register your web app with Google's OAuth system! Basically, you need to tell
