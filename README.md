@@ -20,7 +20,7 @@ There is also one file you will have to create yourself:
 
 In order to set up your Stripe (the best and easiest payment infrastructure in the world), go to [Stripe.com](https://stripe.com) and make an account. Once you make an account, you need to make a [payment subscription link](https://dashboard.stripe.com/test/payment-links/create) (which is in test mode by default) and add the link to your app (currently held in streamlit_app.py). If the user to your app logs in and has not already signed up and paid via Stripe, they will be asked to subscribe before they can see the rest of the app.
 
-The subscription link should be added to secrets.toml like this. If you are using a test link, your link will include test (like the example below), otherwise it will not!
+The subscription link should be added to secrets.toml like this.
 
 ```toml
 stripe_link = 'https://buy.stripe.com/test_...'`
@@ -34,7 +34,7 @@ The subscription link should be added to secrets.toml like this
 stripe_api_key = 'sk_test_...'`
 ```
 
-By default we link out to creating test subscription links and test api keys, but when you launch your app and want folks to pay real money, switch over to a non-test link + api key on your [Stripe dashboard](https://dashboard.stripe.com).
+By default we link out to creating test subscription links and test api keys (you probably already noticed the 'test' in the Stripe dashboard, the subscription link, and in our example api key). When you launch your app and want folks to pay real money, you will need to create production links and api keys from your [Stripe dashboard](https://dashboard.stripe.com) and use those instead.
 
 
 
