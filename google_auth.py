@@ -4,10 +4,76 @@ import jwt
 import streamlit as st
 from httpx_oauth.clients.google import GoogleOAuth2
 
-client_id = st.secrets["client_id"]
-client_secret = st.secrets["client_secret"]
-redirect_url = st.secrets["redirect_url"]
+#client_id = st.secrets["client_id"]
+#client_secret = st.secrets["client_secret"]
+#redirect_url = st.secrets["redirect_url"]
 
+clientSecret = str(st.secrets["client_secret"])
+clientId = str(st.secrets["client_id"])
+redirectUri = str(st.secrets["redirect_uri"])
+
+
+from google_auth_oauthlib.flow import Flow
+from streamlit_elements import elements
+
+if "my_token_input" not in st.session_state:
+    st.session_state["my_token_input"] = ""
+
+if "my_token_received" not in st.session_state:
+    st.session_state["my_token_received"] = False
+
+def charly_form_callback():
+    st.session_state.my_token_received = True
+    code = st.experimental_get_query_params()["code"][0]
+    st.session_state.my_token_input = code
+
+
+with st.sidebar.form(key="my_form"):
+    st.markdown("")
+
+    mt = elements(key="cheers")
+
+    mt.button(
+        "Sign-in with Google",
+        target="_blank",
+        size="large",
+        variant="contained",
+        start_icon=mt.icons.exit_to_app,
+        onclick="none",
+        style={"color": "#FFFFFF", "background": "#FF4B4B"},
+        href="https://accounts.google.com/o/oauth2/auth?response_type=code&client_id="
+        + clientId
+        + "&redirect_uri="
+        + redirectUri
+        + "&scope=https://www.googleapis.com/auth/webmasters.readonly&access_type=offline&prompt=consent",
+    )
+
+    mt.show(key="687")
+
+    credentials = {
+        "installed": {
+            "client_id": clientId,
+            "client_secret": clientSecret,
+            "redirect_uris": [],
+            "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+            "token_uri": "https://accounts.google.com/o/oauth2/token",
+        }
+    }
+
+    flow = Flow.from_client_config(
+        credentials,
+        scopes=["https://www.googleapis.com/auth/webmasters.readonly"],
+        redirect_uri=redirectUri,
+    )
+
+    auth_url, _ = flow.authorization_url(prompt="consent")
+
+    submit_button = st.form_submit_button(
+        label="Get Email", on_click=charly_form_callback
+    )
+
+st.write("Token received: ", st.session_state.my_token_received)
+st.stop()
 client = GoogleOAuth2(client_id=client_id, client_secret=client_secret)
 
 
