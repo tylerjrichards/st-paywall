@@ -10,7 +10,7 @@ from httpx_oauth.clients.google import GoogleOAuth2
 
 clientSecret = str(st.secrets["client_secret"])
 clientId = str(st.secrets["client_id"])
-redirectUri = str(st.secrets["redirect_uri"])
+redirectUri = str(st.secrets["redirect_uri_branch"])
 
 
 from google_auth_oauthlib.flow import Flow
