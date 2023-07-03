@@ -3,3 +3,4 @@ httpx-oauth
 pyjwt
 openai
 streamlit-elements==0.0.2
+searchconsole
