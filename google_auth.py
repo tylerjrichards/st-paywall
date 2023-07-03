@@ -112,7 +112,7 @@ async def get_authorization_url(client: GoogleOAuth2, redirect_url: str):
 
 
 def markdown_button(
-    url: str, text: str | None = None, color="#FD504D", sidebar: bool = True
+    url: str, text: str, color="#FD504D", sidebar: bool = True
 ):
     markdown = st.sidebar.markdown if sidebar else st.markdown
 
@@ -171,7 +171,6 @@ def show_login_button():
 def get_logged_in_user_email() -> str | None:
     if "email" in st.session_state:
         return st.session_state.email
-
     try:
         token_from_params = get_access_token_from_query_params(client, redirect_url)
     except KeyError:
