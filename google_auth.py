@@ -10,7 +10,7 @@ from httpx_oauth.clients.google import GoogleOAuth2
 
 clientSecret = str(st.secrets["client_secret"])
 clientId = str(st.secrets["client_id"])
-redirectUri = str(st.secrets["redirect_uri"])
+redirectUri = str(st.secrets["redirect_url_test"])
 
 
 from google_auth_oauthlib.flow import Flow
@@ -22,7 +22,7 @@ if "my_token_input" not in st.session_state:
 if "my_token_received" not in st.session_state:
     st.session_state["my_token_received"] = False
 
-def charly_form_callback():
+def charly_form_callback(client, redirect_url):
     st.session_state.my_token_received = True
     code = st.experimental_get_query_params()["code"][0]
     st.session_state.my_token_input = code
@@ -44,7 +44,7 @@ def show_sidebar_login():
             start_icon=mt.icons.exit_to_app,
             onclick="none",
             style={"color": "#FFFFFF", "background": "#FF4B4B"},
-            href="https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=" + str(clientId) + "&redirect_uri="+ str(redirectUri)+ "&scope=https://www.googleapis.com/auth/webmasters.readonly&access_type=offline&prompt=consent"
+            href="https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=" + str(clientId) + "&redirect_uri="+ str(redirectUri)+ "&scope=email&access_type=offline&prompt=consent"
         )
 
         mt.show(key="687")
@@ -61,14 +61,15 @@ def show_sidebar_login():
 
         flow = Flow.from_client_config(
             credentials,
-            scopes=["https://www.googleapis.com/auth/webmasters.readonly"],
+            scopes=["email"],
             redirect_uri=redirectUri,
         )
 
         auth_url, _ = flow.authorization_url(prompt="consent")
+        client = GoogleOAuth2(client_id=clientId, client_secret=clientSecret)
 
         submit_button = st.form_submit_button(
-            label="Get Email", on_click=charly_form_callback
+            label="Get Email", on_click=charly_form_callback(client, redirectUri)
         )
 
 def decode_user(token: str):
@@ -80,9 +81,23 @@ def decode_user(token: str):
 
     return decoded_data
 
+def get_client():
+    client = GoogleOAuth2(client_id=clientId, client_secret=clientSecret)
+    return(client)
 
-#client = GoogleOAuth2(client_id=client_id, client_secret=client_secret)
+async def get_access_token(client: GoogleOAuth2, redirect_url: str, code: str):
+    token = await client.get_access_token(code, redirect_url)
+    return token
 
+
+def get_access_token_from_query_params(client: GoogleOAuth2, redirect_url: str) -> str:
+    code = st.session_state["my_token_input"]
+    token = asyncio.run(
+        get_access_token(client=client, redirect_url=redirect_url, code=code)
+    )
+    # Clear query params
+    st.experimental_set_query_params()
+    return token
 
 
 
@@ -134,17 +149,17 @@ async def get_access_token(client: GoogleOAuth2, redirect_url: str, code: str):
     token = await client.get_access_token(code, redirect_url)
     return token
 
-
+'''
 def get_access_token_from_query_params(client: GoogleOAuth2, redirect_url: str) -> str:
     query_params = st.experimental_get_query_params()
-    code = query_params["code"]
+    code = query_params["my_token_input"]
     token = asyncio.run(
         get_access_token(client=client, redirect_url=redirect_url, code=code)
     )
     # Clear query params
     st.experimental_set_query_params()
     return token
-
+'''
 
 def show_login_button():
     authorization_url = asyncio.run(
