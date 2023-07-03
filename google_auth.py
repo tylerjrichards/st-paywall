@@ -14,7 +14,7 @@ redirectUri = str(st.secrets["redirect_uri"])
 
 
 from google_auth_oauthlib.flow import Flow
-from streamlit_elements import elements
+from streamlit_elements import Elements
 
 if "my_token_input" not in st.session_state:
     st.session_state["my_token_input"] = ""
@@ -31,8 +31,9 @@ def charly_form_callback():
 with st.sidebar.form(key="my_form"):
     st.markdown("")
 
-    mt = elements(key="cheers")
+    #url = "https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=" + clientId + "&redirect_uri=" + redirectUri + "&scope=https://www.googleapis.com/auth/webmasters.readonly&access_type=offline&prompt=consent"
 
+    mt = Elements()
     mt.button(
         "Sign-in with Google",
         target="_blank",
@@ -41,11 +42,7 @@ with st.sidebar.form(key="my_form"):
         start_icon=mt.icons.exit_to_app,
         onclick="none",
         style={"color": "#FFFFFF", "background": "#FF4B4B"},
-        href="https://accounts.google.com/o/oauth2/auth?response_type=code&client_id="
-        + clientId
-        + "&redirect_uri="
-        + redirectUri
-        + "&scope=https://www.googleapis.com/auth/webmasters.readonly&access_type=offline&prompt=consent",
+        href="https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=" + str(clientId) + "&redirect_uri="+ str(redirectUri)+ "&scope=https://www.googleapis.com/auth/webmasters.readonly&access_type=offline&prompt=consent"
     )
 
     mt.show(key="687")
