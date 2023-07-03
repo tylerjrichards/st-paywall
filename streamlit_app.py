@@ -1,14 +1,22 @@
 import streamlit as st
 
 from google_auth import (
-    get_logged_in_user_email,
-    show_login_button,
+    show_sidebar_login,
 )
 from stripe_auth import get_customer_emails, redirect_button
 
 st.set_page_config(layout="wide")
 st.title("🎈 Tyler's Subscription app POC 🎈")
 st.balloons()
+
+
+from google_auth_oauthlib.flow import Flow
+from streamlit_elements import Elements
+
+
+show_sidebar_login()
+if st.session_state.my_token_received:
+    st.write(st.session_state.my_token_input)
 
 my_customer_emails = get_customer_emails()
 
