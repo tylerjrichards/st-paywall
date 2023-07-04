@@ -4,6 +4,15 @@
 
 <strong>A template for how to create subscription Streamlit apps </strong>
 
+## Thanks for demoing!!
+
+I'm temporarily putting this here for all the folks who nicely agreed to try this out. A lot of the reason behind me creating this is that data scientists currently lack a good avenue to making small businesses online, and with the LLM app craze going on right now I wanted to also make it easier for folks to share LLM apps without having to pay on their own for API calls. Either way, I greatly appreciate you trying this out. I'm trying to figure out:
+1. Should this be a example repo? Should I wrap this in a python package?
+2. Does this even really work? Where are the bugs?
+3. Do the abstractions i've created make sense here? What can be done to improve usability?
+
+Let me know!
+
 ## Overview
 
 This repo shows you how to add both Google authentication and a Stripe subscription to your Streamlit apps. I hope you use this to create tons of value, and capture some of it with the magic of Streamlit!
