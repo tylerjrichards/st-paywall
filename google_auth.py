@@ -7,7 +7,7 @@ from google_auth_oauthlib.flow import Flow
 
 clientSecret = str(st.secrets["client_secret"])
 clientId = str(st.secrets["client_id"])
-redirectUri = str(st.secrets["redirect_url_test"])
+redirectUri = str(st.secrets["redirect_uri_branch"])
 
 def markdown_button(
     url: str, text: str | None = None, color="#FD504D", sidebar: bool = True
@@ -105,7 +105,7 @@ def get_logged_in_user_email() -> str | None:
     if "email" in st.session_state:
         return st.session_state.email
     try:
-        token_from_params = get_access_token_from_query_params(get_client(), redirect_url=str(st.secrets["redirect_uri_branch"]))
+        token_from_params = get_access_token_from_query_params(get_client(), redirect_url=redirectUri)
     except KeyError:
         return None
 
