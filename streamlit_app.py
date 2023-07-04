@@ -2,7 +2,6 @@ import streamlit as st
 
 from google_auth import (
     show_sidebar_login,
-    get_access_token,
     get_access_token_from_query_params,
     get_client,
     get_logged_in_user_email,
@@ -18,22 +17,6 @@ st.balloons()
 from google_auth_oauthlib.flow import Flow
 from streamlit_elements import Elements
 
-
-show_sidebar_login()
-
-st.write(st.session_state)
-if st.session_state.my_token_received:
-    st.write(st.session_state.my_token_input)
-    token = get_access_token_from_query_params(client = get_client(), redirect_url = str(st.secrets["redirect_uri_branch"]))
-    st.session_state.token = token
-else:
-    st.stop()
-token = st.session_state.token['id_token']
-
-email = decode_user(token)
-st.write(email)
-
-st.stop()
 my_customer_emails = get_customer_emails()
 
 user_email = get_logged_in_user_email()
@@ -43,8 +26,11 @@ if user_email:
         del st.session_state.email
         st.experimental_rerun()
 else:
-    show_login_button()
-    st.stop()
+    show_sidebar_login()
+    try:
+        token_from_params = get_access_token_from_query_params(get_client(), redirect_url=str(st.secrets["redirect_url_test"]))
+    except KeyError:
+        st.stop()
 
 if user_email:
     st.sidebar.write("")
