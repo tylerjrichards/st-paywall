@@ -4,18 +4,13 @@ from google_auth import (
     show_sidebar_login,
     get_access_token_from_query_params,
     get_client,
-    get_logged_in_user_email,
-    decode_user
+    get_logged_in_user_email
 )
 from stripe_auth import get_customer_emails, redirect_button
 
 st.set_page_config(layout="wide")
 st.title("🎈 Tyler's Subscription app POC 🎈")
 st.balloons()
-
-
-from google_auth_oauthlib.flow import Flow
-from streamlit_elements import Elements
 
 my_customer_emails = get_customer_emails()
 
