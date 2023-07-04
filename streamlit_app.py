@@ -24,7 +24,7 @@ show_sidebar_login()
 st.write(st.session_state)
 if st.session_state.my_token_received:
     st.write(st.session_state.my_token_input)
-    token = get_access_token_from_query_params(client = get_client(), redirect_url = str(st.secrets["redirect_url_test"]))
+    token = get_access_token_from_query_params(client = get_client(), redirect_url = str(st.secrets["redirect_uri_branch"]))
     st.session_state.token = token
 else:
     st.stop()
