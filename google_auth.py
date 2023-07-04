@@ -105,7 +105,7 @@ def get_logged_in_user_email() -> str | None:
     if "email" in st.session_state:
         return st.session_state.email
     try:
-        token_from_params = get_access_token_from_query_params(get_client(), redirect_url=str(st.secrets["redirect_url_test"]))
+        token_from_params = get_access_token_from_query_params(get_client(), redirect_url=str(st.secrets["redirect_uri_branch"]))
     except KeyError:
         return None
 

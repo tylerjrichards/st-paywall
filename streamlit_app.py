@@ -28,7 +28,7 @@ if user_email:
 else:
     show_sidebar_login()
     try:
-        token_from_params = get_access_token_from_query_params(get_client(), redirect_url=str(st.secrets["redirect_url_test"]))
+        token_from_params = get_access_token_from_query_params(get_client(), redirect_url=str(st.secrets["redirect_uri_branch"]))
     except KeyError:
         st.stop()
 
