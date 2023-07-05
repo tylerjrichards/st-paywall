@@ -37,7 +37,7 @@ stripe_link = 'https://buy.stripe.com/test_...'`
 
 You also need to create an [API key](https://dashboard.stripe.com/test/apikeys), which just like subscription links have test options as well. Store your API key in your secrets file as stripe_api_key and you're off to the races.
 
-The subscription link should be added to secrets.toml like this
+The API key should be added to secrets.toml like this
 
 ```toml
 stripe_api_key = 'sk_test_...'`
