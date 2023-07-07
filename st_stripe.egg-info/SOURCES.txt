@@ -1,0 +1,8 @@
+README.md
+pyproject.toml
+setup.py
+st_stripe.egg-info/PKG-INFO
+st_stripe.egg-info/SOURCES.txt
+st_stripe.egg-info/dependency_links.txt
+st_stripe.egg-info/requires.txt
+st_stripe.egg-info/top_level.txt

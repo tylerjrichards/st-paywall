@@ -2,9 +2,9 @@ import streamlit as st
 import stripe
 import urllib.parse
 
-stripe.api_key = st.secrets["stripe_api_key"]
-
-stripe_link = st.secrets["stripe_link"]
+testing_mode = st.secrets.get("testing_mode", False)
+stripe.api_key = st.secrets["stripe_api_key_test"] if testing_mode else st.secrets["stripe_api_key"]
+stripe_link = st.secrets["stripe_link_test"] if testing_mode else st.secrets["stripe_link"]
 
 
 def redirect_button(

@@ -1,0 +1,90 @@
+Metadata-Version: 2.1
+Name: st-stripe
+Version: 0.1.1
+Summary: A Python package for creating subscription Streamlit apps
+Home-page: https://github.com/tylerjrichards/st-stripe
+Author: Tyler Richards
+Author-email: Tyler <your.email@example.com>
+License: MIT
+Description-Content-Type: text/markdown
+
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://subscription.streamlit.app)
+
+# 🥟 st-stripe
+
+<strong>A template for how to create subscription Streamlit apps </strong>
+
+## Thanks for demoing!!
+
+I'm temporarily putting this here for all the folks who nicely agreed to try this out. A lot of the reason behind me creating this is that data scientists currently lack a good avenue to making small businesses online, and with the LLM app craze going on right now I wanted to also make it easier for folks to share LLM apps without having to pay on their own for API calls. Either way, I greatly appreciate you trying this out. I'm trying to figure out:
+1. Should this be a example repo? Should I wrap this in a python package?
+2. Does this even really work? Where are the bugs?
+3. Do the abstractions i've created make sense here? What can be done to improve usability?
+
+Let me know!
+
+## Overview
+
+This repo shows you how to add both Google authentication and a Stripe subscription to your Streamlit apps. I hope you use this to create tons of value, and capture some of it with the magic of Streamlit!
+
+- google_auth.py: this holds all of the Google Oauth parts of this code
+- stripe_auth.py: this holds all the Stripe button creation and customer listing aspects of the code
+- streamlit_app.py: this brings it all together, and has the code after users have subscribed
+
+There is also one file you will have to create yourself:
+
+- .streamlit/secrets.toml: this holds all of your secret credentials to access Google and Stripe. Note that you will need to create the .streamlit/ folder first, and then secrets.toml
+
+### Stripe
+
+In order to set up your Stripe (the best and easiest payment infrastructure in the world), go to [Stripe.com](https://stripe.com) and make an account. Once you make an account, you need to make a [payment subscription link](https://dashboard.stripe.com/test/payment-links/create) (which is in test mode by default) and add the link to your app (currently held in streamlit_app.py). If the user to your app logs in and has not already signed up and paid via Stripe, they will be asked to subscribe before they can see the rest of the app.
+
+The subscription link should be added to secrets.toml like this.
+
+```toml
+stripe_link = 'https://buy.stripe.com/test_...'`
+```
+
+You also need to create an [API key](https://dashboard.stripe.com/test/apikeys), which just like subscription links have test options as well. Store your API key in your secrets file as stripe_api_key and you're off to the races.
+
+The subscription link should be added to secrets.toml like this
+
+```toml
+stripe_api_key = 'sk_test_...'`
+```
+
+By default we link out to creating test subscription links and test api keys (you probably already noticed the 'test' in the Stripe dashboard, the subscription link, and in our example api key). When you launch your app and want folks to pay real money, you will need to create production links and api keys from your [Stripe dashboard](https://dashboard.stripe.com) and use those instead. While you are testing out the Stripe part of your code, you can use [Stripe's test cards](https://stripe.com/docs/testing) instead of inputting your own credit card info!
+
+### Google
+
+In order to set up your Google Oauth, you need to register your web app with Google's OAuth system! Basically, you need to tell
+
+So head over to [this url](https://console.cloud.google.com/apis/credentials/oauthclient) and create a web application (and a project, if this is your first go around with Google Cloud). Give a unique name, and add 'http://localhost:8501/' as an "Authorized redirect URI" (when you deploy your app, you'll also need to add the final url of your app to this list). Now press create, and store your client id, and client secret in the secrets.toml file as client_id and client_secret.
+
+For example:
+
+```toml
+client_id = '1234.....googleusercontent.com'
+client_secret = 'GOC...'
+redirect_url = 'http://localhost.com:8501'
+```
+
+The last step for your Google Oauth provisioning is to head over to the [consent screen](https://console.cloud.google.com/apis/credentials/consent) and edit what users will see when logging in. Fill out all the info they ask for, and make sure to add the email scope (called '.../auth/userinfo.email' by Google with the user description 'See your primary Google Account email address'). That should be it!
+
+### Testing Mode
+
+You can also test this package out by going into 'testing mode', which will look for different credentials in your secrets.toml file. To activate test mode, go ahead and the following to the top of your secrets file.
+
+```toml
+testing_mode = true
+```
+
+After this, add test urls, api keys, and links to your secrets like so.
+
+```toml
+redirect_url_test = "your_google_test_client_id"
+stripe_api_key_test = "your_stripe_test_api_key"
+stripe_link_test = "your_stripe_test_link"
+```
+
+With testing mode enabled, you can safely test your Streamlit app's authentication and subscription functionality without affecting real user data or transactions. When you're ready to deploy your app, simply set testing_mode to false in your secrets.toml file to use the production credentials.

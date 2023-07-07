@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+
+[project]
+name = "st_stripe"
+version = "0.1.4"
+description = "A Python package for creating subscription Streamlit apps"
+authors = [
+    {name = "Tyler", email = "tylerjrichards@gmail.com"}
+]
+readme = "README.md"
+license = {text = "MIT"}
+dependencies = [
+    "stripe",
+    "httpx-oauth",
+    "pyjwt"
+]
+
+
+
+

@@ -1,3 +1,11 @@
+Metadata-Version: 2.1
+Name: st-stripe
+Version: 0.1.4
+Summary: A Python package for creating subscription Streamlit apps
+Author-email: Tyler <tylerjrichards@gmail.com>
+License: MIT
+Description-Content-Type: text/markdown
+
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://subscription.streamlit.app)
 
 # 🥟 st-stripe
@@ -25,9 +33,7 @@ stripe_link = 'https://buy.stripe.com/test_...'`
 
 You also need to create an [API key](https://dashboard.stripe.com/test/apikeys), which just like subscription links have test options as well. Store your API key in your secrets file as stripe_api_key and you're off to the races.
 
-
-The API key should be added to secrets.toml like this
-
+The api key link should be added to secrets.toml like this
 
 ```toml
 stripe_api_key = 'sk_test_...'`
