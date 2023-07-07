@@ -1,3 +1,4 @@
 stripe
 httpx-oauth
 pyjwt
+st-stripe

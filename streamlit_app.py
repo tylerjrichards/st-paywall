@@ -5,7 +5,7 @@ st.set_page_config(layout="wide")
 st.title("🎈 Tyler's Subscription app POC 🎈")
 st.balloons()
 
-add_auth()
+require_auth()
 
 st.write("Congrats, you are subscribed!")
 st.write(st.session_state.email)
