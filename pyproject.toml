@@ -2,7 +2,7 @@
 requires = ["setuptools", "wheel"]
 
 [project]
-name = "st-stripe"
+name = "st_stripe"
 version = "0.1.1"
 description = "A Python package for creating subscription Streamlit apps"
 authors = [

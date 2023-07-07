@@ -9,3 +9,4 @@ require_auth()
 
 st.write("Congrats, you are subscribed!")
 st.write(st.session_state.email)
+st.write(st.session_state.user_subscribed)
