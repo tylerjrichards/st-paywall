@@ -60,3 +60,21 @@ redirect_url = 'http://localhost.com:8501'
 ```
 
 The last step for your Google Oauth provisioning is to head over to the [consent screen](https://console.cloud.google.com/apis/credentials/consent) and edit what users will see when logging in. Fill out all the info they ask for, and make sure to add the email scope (called '.../auth/userinfo.email' by Google with the user description 'See your primary Google Account email address'). That should be it!
+
+### Testing Mode
+
+You can also test this package out by going into 'testing mode', which will look for different credentials in your secrets.toml file. To activate test mode, go ahead and the following to the top of your secrets file.
+
+```toml
+testing_mode = true
+```
+
+After this, add test urls, api keys, and links to your secrets like so.
+
+```toml
+redirect_url_test = "your_google_test_client_id"
+stripe_api_key_test = "your_stripe_test_api_key"
+stripe_link_test = "your_stripe_test_link"
+```
+
+With testing mode enabled, you can safely test your Streamlit app's authentication and subscription functionality without affecting real user data or transactions. When you're ready to deploy your app, simply set testing_mode to false in your secrets.toml file to use the production credentials.

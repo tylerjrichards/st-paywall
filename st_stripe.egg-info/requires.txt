@@ -1,3 +1,4 @@
+streamlit
 stripe
 httpx-oauth
 pyjwt
