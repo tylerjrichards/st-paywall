@@ -6,7 +6,11 @@ __pycache__/
 profile_default/
 ipython_config.py
 
+.DS_Store
+
 
 .streamlit
 .direnv/
 .envrc
+.mypy_cache/
+```

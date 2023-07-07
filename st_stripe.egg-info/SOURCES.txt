@@ -1,4 +1,5 @@
 README.md
+pyproject.toml
 setup.py
 st_stripe.egg-info/PKG-INFO
 st_stripe.egg-info/SOURCES.txt
