@@ -3,7 +3,7 @@ requires = ["setuptools", "wheel"]
 
 [project]
 name = "st_stripe"
-version = "0.1.1"
+version = "0.1.2"
 description = "A Python package for creating subscription Streamlit apps"
 authors = [
     {name = "Tyler", email = "your.email@example.com"}

@@ -28,14 +28,19 @@ def add_auth():
 
     if not user_email:
         show_login_button()
+        st.session_state.email = ""
+        st.sidebar.markdown("")
 
     customer_emails = get_customer_emails()
     if user_email not in customer_emails:
-        redirect_button(text="Subscribe now!", customer_email=user_email)
+        redirect_button(text="Subscribe now!", customer_email="")
+        st.sidebar.markdown("")
         st.session_state.user_subscribed = False
+
     elif user_email in customer_emails:
         st.session_state.user_subscribed = True
 
-    if st.sidebar.button("Logout", type="primary"):
-        del st.session_state.email
-        st.experimental_rerun()
+    if st.session_state.email != "":
+        if st.sidebar.button("Logout", type="primary"):
+            del st.session_state.email
+            st.experimental_rerun()
