@@ -1,4 +1,4 @@
 stripe
 httpx-oauth
 pyjwt
-st-stripe
+st-paywall

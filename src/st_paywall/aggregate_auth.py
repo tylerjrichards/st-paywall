@@ -2,6 +2,11 @@ import streamlit as st
 from .google_auth import get_logged_in_user_email, show_login_button
 from .stripe_auth import get_customer_emails, redirect_button
 
+def add_auth(required=True):
+    if required:
+        require_auth()
+    else:
+        optional_auth()
 
 def require_auth():
     user_email = get_logged_in_user_email()
@@ -23,7 +28,7 @@ def require_auth():
         del st.session_state.email
         st.experimental_rerun()
 
-def add_auth():
+def optional_auth():
     user_email = get_logged_in_user_email()
 
     if not user_email:

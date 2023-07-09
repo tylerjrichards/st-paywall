@@ -1,4 +1,4 @@
-[![Releases](https://img.shields.io/pypi/v/st-stripe)](https://pypi.org/project/st-stripe/)
+[![Releases](https://img.shields.io/pypi/v/st-paywall)](https://pypi.org/project/st-paywall/)
 
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://subscription.streamlit.app)
 
@@ -9,7 +9,7 @@ Kind consultant: [@blackary](https://github.com/blackary)
 ## Installation
 
 ```sh
-pip install st-stripe
+pip install st-paywall
 ```
 
 ## See it in action
@@ -18,7 +18,7 @@ Basic example: https://subscription.streamlit.app
 
 <p>&nbsp;</p>
 
-# 🥟 st-stripe
+# 🥟 st-paywall
 
 <strong>A python package for creating subscription Streamlit apps </strong>
 
@@ -54,7 +54,7 @@ The API key should be added to `secrets.toml` like this
 stripe_api_key = 'sk_...'`
 ```
 
-By default this repo links to creating test subscription links and test api keys (you probably already noticed the 'test' in the Stripe dashboard, the subscription link, and in our example api key). When you launch your app and want folks to pay real money, you will need to create production links and api keys from your [Stripe dashboard](https://dashboard.stripe.com) and use those instead. While you are testing out the Stripe part of your code, you can use [Stripe's test cards](https://stripe.com/docs/testing) instead of inputting your own credit card info! To run st-stripe in test mode, add the following to your secrets file.
+By default this repo links to creating test subscription links and test api keys (you probably already noticed the 'test' in the Stripe dashboard, the subscription link, and in our example api key). When you launch your app and want folks to pay real money, you will need to create production links and api keys from your [Stripe dashboard](https://dashboard.stripe.com) and use those instead. While you are testing out the Stripe part of your code, you can use [Stripe's test cards](https://stripe.com/docs/testing) instead of inputting your own credit card info! To run st-paywall in test mode, add the following to your secrets file.
 
 ```toml
 testing_mode = true
@@ -86,7 +86,7 @@ client_secret = 'GOC...'
 redirect_url = 'http://localhost:8501'
 ```
 
-The last step for your Google Oauth provisioning is to head over to the [consent screen](https://console.cloud.google.com/apis/credentials/consent) and edit what users will see when logging in. Fill out all the info they ask for, and make sure to add the email scope (called '.../auth/userinfo.email' by Google with the user description 'See your primary Google Account email address'). That should be it! If you are in testing mode, st-stripe will look for the following secrets.
+The last step for your Google Oauth provisioning is to head over to the [consent screen](https://console.cloud.google.com/apis/credentials/consent) and edit what users will see when logging in. Fill out all the info they ask for, and make sure to add the email scope (called '.../auth/userinfo.email' by Google with the user description 'See your primary Google Account email address'). That should be it! If you are in testing mode, st-paywall will look for the following secrets.
 
 ```toml
 client_id = '1234.....googleusercontent.com'
@@ -101,4 +101,4 @@ For my test application at subscription.streamlit.app, my Google console looks l
 
 ### Feedback:
 
-If you have feedback about this package, please reach out to me on [twitter](https://twitter.com/tylerjrichards) or file an issue in [this repo](https://github.com/tylerjrichards/st-stripe/issues) and I will do my best to help you out.
+If you have feedback about this package, please reach out to me on [twitter](https://twitter.com/tylerjrichards) or file an issue in [this repo](https://github.com/tylerjrichards/st-paywall/issues) and I will do my best to help you out.

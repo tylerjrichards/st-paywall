@@ -1,3 +1,0 @@
-stripe
-httpx-oauth
-pyjwt
