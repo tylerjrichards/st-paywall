@@ -20,14 +20,14 @@ Basic example: https://subscription.streamlit.app
 
 # 🥟 st-paywall
 
-<strong>A python package for creating subscription Streamlit apps </strong>
+<strong>A python package for creating paid Streamlit apps with a paywall! </strong>
 
 ## Overview
 
-This package gives you two basic functions (`require_auth` and `add_auth`) that add subscription functionality to your Streamlit apps. `require_auth` will add both a Google login button and a Stripe subscription button to your sidebar, and will stop your entire app with `st.stop()` if the user is not logged in and subscribed. If they are subscribed, `st.session_state.user_subscribed` will be true, and if they are logged in, `st.session_state.email` will have their email. If the user is not logged in or subscribed, they will be prompted to do so in the sidebar.
-`add_auth` does the same, except it does not stop the app but instead just surfaces the `st.session_state` information detailed above, which means the developer can control exactly what they would like to show to the subscribed vs unsubscribed user!
+This package gives you one basic functions (`add_auth`) that adds subscription functionality to your Streamlit apps. `add_auth` will add both a Google login button if they are not logged in, and a Stripe subscription button to your sidebar if they are not subscribed. If they are subscribed, `st.session_state.user_subscribed` will be true, and if they are logged in, `st.session_state.email` will have their email.
+If the `required` parameter is `True`, the app will stop with `st.stop()` if the user is not logged in and subscribed. Otherwise, you the developer will have control over exactly how you want to paywall the apps!
 
- I hope you use this to create tons of value, and capture some of it with the magic of Streamlit!
+ I hope you use this to create tons of value, and capture some of it with the magic of Streamlit.
 
 This package expects that you have a `.streamlit/secrets.toml` file which you will have to create. Inside it, you will need to add your Stripe and Google API information that runs the authentication and subscription parts of the package.
 
