@@ -9,4 +9,3 @@ add_auth(required=True)
 
 st.write("Congrats, you are subscribed!")
 st.write('the email of the user is ' + str(st.session_state.email))
-st.write('the subscription status of the user is ' + str(st.session_state.user_subscribed))
