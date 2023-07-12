@@ -2,3 +2,4 @@ stripe
 httpx-oauth
 pyjwt
 st-paywall
+mkdocs
