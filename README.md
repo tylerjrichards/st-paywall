@@ -117,3 +117,31 @@ This will change your app to link out to buymeacoffee instead of Stripe, and wil
 ### Feedback:
 
 If you have feedback about this package, please reach out to me on [twitter](https://twitter.com/tylerjrichards) or file an issue in [this repo](https://github.com/tylerjrichards/st-paywall/issues) and I will do my best to help you out.
+
+### Local Development:
+
+Local development setup with python >= 3.8 installed:
+
+- Fork the repository to your own github account from the top of [this page](https://github.com/tylerjrichards/st-paywall)
+- Clone your forked repository to your local system
+- Initialize a virtual environment with python 3.8 installed
+- Install the package locally with pip in editable mode
+- Install streamlit
+- Run the sample application
+- Edit `src/st_paywall` as needed and re-run the sample application
+
+Sample:
+
+```sh
+# clone fork
+git clone git@github.com:$YOUR_USERNAME/st-paywall.git
+# init virtual env
+cd st-paywall
+python -m venv venv
+. ./venv/bin/activate
+# Install dependencies
+python -m pip install -e .
+python -m pip install streamlit
+# Run sample application!
+python -m streamlit run streamlit_app.py
+```
