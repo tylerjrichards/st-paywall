@@ -102,6 +102,17 @@ For my test application at subscription.streamlit.app, my Google console looks l
 
 <img src="readme_img/google_oauth_console.png" width="300">
 
+### Buy Me A Coffee
+
+Not everywhere in the world is covered by Stripe! Buy Me A Coffee is a lighter, less business-y service that allows folks to support you online. To link to your buy me a coffee page instead of your Stripe payment link, go to their [dev page](https://developers.buymeacoffee.com/dashboard) and create an access token. You will also add a [membership product offering](https://www.buymeacoffee.com/membership) as well. Once you have the membership link and the key, add the following to your secrets file.
+
+```toml
+payment_provider = "bmac"
+bmac_api_key = "eyJ0...."
+bmac_link = "https://www.buymeacoffee.com/..."
+```
+
+This will change your app to link out to buymeacoffee instead of Stripe, and will get your customer list from there as well!
 
 ### Feedback:
 
