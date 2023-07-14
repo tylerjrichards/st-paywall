@@ -14,6 +14,16 @@ redirect_url = st.secrets["redirect_url_test"] if testing_mode else st.secrets["
 client = GoogleOAuth2(client_id=client_id, client_secret=client_secret)
 
 
+@st.cache_resource(ttl=300)
+def qparms_cache(key):
+    return {}
+
+def state_generator(size):
+    import string
+    import random
+    chars = string.ascii_uppercase + string.ascii_lowercase + string.digits
+    return ''.join(random.choice(chars) for _ in range(size))
+
 def decode_user(token: str):
     """
     :param token: jwt token
@@ -25,8 +35,13 @@ def decode_user(token: str):
 
 
 async def get_authorization_url(client: GoogleOAuth2, redirect_url: str):
+    state = state_generator(15)
+    if st.experimental_get_query_params():
+        qpcache = qparms_cache(state)
+        qpcache = st.experimmental_get_query_params()
     authorization_url = await client.get_authorization_url(
         redirect_url,
+        state=state,
         scope=["email"],
         extras_params={"access_type": "offline"},
     )
@@ -75,11 +90,14 @@ async def get_access_token(client: GoogleOAuth2, redirect_url: str, code: str):
 def get_access_token_from_query_params(client: GoogleOAuth2, redirect_url: str) -> str:
     query_params = st.experimental_get_query_params()
     code = query_params["code"]
+    if "state" in query_params:
+        qpcache = qparms_cache(query_params["state"])
+
     token = asyncio.run(
         get_access_token(client=client, redirect_url=redirect_url, code=code)
     )
     # Clear query params
-    st.experimental_set_query_params()
+    st.experimental_set_query_params(**qpcache)
     return token
 
 
