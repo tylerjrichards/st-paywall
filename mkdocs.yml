@@ -7,4 +7,5 @@ nav:
     - Home: index.md
     - "Authentication with Google": authentication-google.md
     - "Subscription with Stripe": subscription-stripe.md
+    - "Subscriptino with Buy Me A Coffee": subscription-buymeacoffee.md
     - "Contribute": contribute.md
