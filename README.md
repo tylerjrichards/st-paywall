@@ -41,7 +41,9 @@ st.write(st.session_state.email)
 st.write(st.session_state.user_subscribed)
 ```
 
+
 The full documentation for the usage of the library can be found at https://st-paywall-fork.readthedocs.io/.
+
 
 ### Feedback:
 

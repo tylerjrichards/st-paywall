@@ -11,9 +11,13 @@ def redirect_button(
     text: str,
     customer_email: str,
     color="#FD504D",
+    payment_provider: str = "stripe",
 ):
     encoded_email = urllib.parse.quote(customer_email)
-    button_url = f"{stripe_link}?prefilled_email={encoded_email}"
+    if payment_provider == "stripe":
+        button_url = f"{stripe_link}?prefilled_email={encoded_email}"
+    elif payment_provider == "bmac":
+        button_url = f"{st.secrets['bmac_link']}"
 
     st.sidebar.markdown(
         f"""
