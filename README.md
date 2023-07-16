@@ -31,13 +31,17 @@ I made st-paywall so data scientists and LLM developers can create small busines
 Once you configure the authentication and subscription on `st.secrets`, you can use the the library methods to conditionally render the content of the page:
 
 ```python
-import st-paywall as stw
+from st_paywall import add_auth
 
-stw.user_is_logged_in()  # Boolean determining if the user is logged in or not. If not, redirects to subscription page
-stw.user_is_subscribed() # Boolean determining if the user is subscribed. If not, redirects to subscription page
+add_auth()
+
+#after authentication, the email and subscription status is stored
+#in session state
+st.write(st.session_state.email)
+st.write(st.session_state.user_subscribed)
 ```
 
-The full documentation for the usage of the library can be found on 
+The full documentation for the usage of the library can be found at https://st-paywall-fork.readthedocs.io/.
 
 ### Feedback:
 
