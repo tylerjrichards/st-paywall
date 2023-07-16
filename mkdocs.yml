@@ -1,0 +1,10 @@
+site_name: st-paywall
+site_url: https://github.com/
+markdown_extensions:
+    - toc:
+        baselevel: 2
+nav:
+    - Home: index.md
+    - "Authentication with Google": authentication-google.md
+    - "Subscription with Stripe": subscription-stripe.md
+    - "Contribute": contribute.md
