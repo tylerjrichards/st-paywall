@@ -1,4 +1,5 @@
 import asyncio
+from typing import Optional
 
 import jwt
 import streamlit as st
@@ -34,7 +35,7 @@ async def get_authorization_url(client: GoogleOAuth2, redirect_url: str):
 
 
 def markdown_button(
-    url: str, text: str | None = None, color="#FD504D", sidebar: bool = True
+    url: str, text: Optional[str] = None, color="#FD504D", sidebar: bool = True
 ):
     markdown = st.sidebar.markdown if sidebar else st.markdown
 
@@ -90,7 +91,7 @@ def show_login_button():
     markdown_button(authorization_url, "Login with Google")
 
 
-def get_logged_in_user_email() -> str | None:
+def get_logged_in_user_email() -> Optional[str]:
     if "email" in st.session_state:
         return st.session_state.email
 
