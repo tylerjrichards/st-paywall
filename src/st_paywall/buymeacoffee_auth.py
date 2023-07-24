@@ -1,7 +1,6 @@
+from __future__ import annotations
 import requests
 import streamlit as st
-
-bmac_api = st.secrets["bmac_api_key"]
 
 
 def extract_payer_emails(json_response):
@@ -14,7 +13,10 @@ def extract_payer_emails(json_response):
     return payer_emails
 
 
-def get_bmac_payers(access_token: str = bmac_api, one_time: bool = False):
+def get_bmac_payers(access_token: str | None = None, one_time: bool = False):
+    if access_token is None:
+        access_token = st.secrets["bmac_api_key"]
+
     if one_time is False:
         url = "https://developers.buymeacoffee.com/api/v1/subscriptions?status=active"
         headers = {"Authorization": f"Bearer {access_token}"}
