@@ -4,13 +4,16 @@ from typing import Optional
 import jwt
 import streamlit as st
 from httpx_oauth.clients.google import GoogleOAuth2
+from httpx_oauth.oauth2 import OAuth2Token
 
 testing_mode = st.secrets.get("testing_mode", False)
 
 
 client_id = st.secrets["client_id"]
 client_secret = st.secrets["client_secret"]
-redirect_url = st.secrets["redirect_url_test"] if testing_mode else st.secrets["redirect_url"]
+redirect_url = (
+    st.secrets["redirect_url_test"] if testing_mode else st.secrets["redirect_url"]
+)
 
 client = GoogleOAuth2(client_id=client_id, client_secret=client_secret)
 
@@ -25,7 +28,7 @@ def decode_user(token: str):
     return decoded_data
 
 
-async def get_authorization_url(client: GoogleOAuth2, redirect_url: str):
+async def get_authorization_url(client: GoogleOAuth2, redirect_url: str) -> str:
     authorization_url = await client.get_authorization_url(
         redirect_url,
         scope=["email"],
@@ -68,14 +71,18 @@ def markdown_button(
     )
 
 
-async def get_access_token(client: GoogleOAuth2, redirect_url: str, code: str):
+async def get_access_token(
+    client: GoogleOAuth2, redirect_url: str, code: str
+) -> OAuth2Token:
     token = await client.get_access_token(code, redirect_url)
     return token
 
 
-def get_access_token_from_query_params(client: GoogleOAuth2, redirect_url: str) -> str:
+def get_access_token_from_query_params(
+    client: GoogleOAuth2, redirect_url: str
+) -> OAuth2Token:
     query_params = st.experimental_get_query_params()
-    code = query_params["code"]
+    code = query_params["code"][0]
     token = asyncio.run(
         get_access_token(client=client, redirect_url=redirect_url, code=code)
     )

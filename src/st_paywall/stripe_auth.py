@@ -3,8 +3,12 @@ import stripe
 import urllib.parse
 
 testing_mode = st.secrets.get("testing_mode", False)
-stripe.api_key = st.secrets["stripe_api_key_test"] if testing_mode else st.secrets["stripe_api_key"]
-stripe_link = st.secrets["stripe_link_test"] if testing_mode else st.secrets["stripe_link"]
+stripe.api_key = (
+    st.secrets["stripe_api_key_test"] if testing_mode else st.secrets["stripe_api_key"]
+)
+stripe_link = (
+    st.secrets["stripe_link_test"] if testing_mode else st.secrets["stripe_link"]
+)
 
 
 def redirect_button(
@@ -18,6 +22,8 @@ def redirect_button(
         button_url = f"{stripe_link}?prefilled_email={encoded_email}"
     elif payment_provider == "bmac":
         button_url = f"{st.secrets['bmac_link']}"
+    else:
+        raise ValueError("payment_provider must be 'stripe' or 'bmac'")
 
     st.sidebar.markdown(
         f"""
