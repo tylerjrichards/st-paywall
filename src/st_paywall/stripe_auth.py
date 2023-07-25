@@ -31,7 +31,7 @@ def redirect_button(
     else:
         raise ValueError("payment_provider must be 'stripe' or 'bmac'")
 
-    st.sidebar.markdown(
+    st.markdown(
         f"""
     <a href="{button_url}" target="_blank">
         <div style="
@@ -40,7 +40,9 @@ def redirect_button(
             color: #FFFFFF;
             background-color: {color};
             border-radius: 3px;
-            text-decoration: none;">
+            text-decoration: none;
+            margin-bottom: 5px;
+            ">
             {text}
         </div>
     </a>

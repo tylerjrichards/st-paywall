@@ -1,5 +1,14 @@
 import sqlite3
+import streamlit as st
 import secrets
+from streamlit_js_eval import get_cookie, set_cookie  # noqa
+
+
+SESSION_COOKIE_NAME = "st_paywall_session_id"
+
+
+def delete_cookie(key: str):
+    set_cookie(key, "", -1, component_key=f"DELETE_COOKIE_{key}")
 
 
 def create_table():
@@ -9,7 +18,7 @@ def create_table():
             """
             CREATE TABLE IF NOT EXISTS sessions (
                 session_id TEXT,
-                email TEXT,
+                email TEXT
             )
             """
         )
@@ -32,10 +41,13 @@ def get_email_from_session_id(session_id: str) -> str | None:
         result = c.fetchone()
         c.close()
 
-    return result
+    try:
+        return result[0]
+    except TypeError:
+        return None
 
 
-def get_new_session_id(email: str) -> str:
+def set_new_session_id(email: str) -> str:
     """Create a new session_id and store it in the database"""
     create_table()
     session_id = secrets.token_hex(32)
@@ -50,4 +62,27 @@ def get_new_session_id(email: str) -> str:
         conn.commit()
         c.close()
 
+    set_cookie(SESSION_COOKIE_NAME, session_id, duration_days=1)
+
     return session_id
+
+
+def get_email_from_session() -> str | None:
+    try:
+        return st.session_state["email"]
+    except KeyError:
+        pass
+
+    session_id = get_cookie(SESSION_COOKIE_NAME)
+    if not session_id:
+        return None
+
+    email = get_email_from_session_id(session_id)
+    if email:
+        st.session_state["email"] = email
+
+    return email
+
+
+def clear_session():
+    delete_cookie(SESSION_COOKIE_NAME)

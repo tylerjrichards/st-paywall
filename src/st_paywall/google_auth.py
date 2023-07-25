@@ -6,9 +6,6 @@ import streamlit as st
 from httpx_oauth.clients.google import GoogleOAuth2
 from httpx_oauth.oauth2 import OAuth2Token
 
-# from st_paywall.cookies import get_cookie, add_cookie
-from streamlit_js_eval import get_cookie, set_cookie
-from st_paywall.sessions import get_email_from_session_id, get_new_session_id
 
 testing_mode = st.secrets.get("testing_mode", False)
 
@@ -103,31 +100,11 @@ def show_login_button():
 
 
 def get_logged_in_user_email() -> Optional[str]:
-    if "email" in st.session_state:
-        return st.session_state.email
-
-    try:
-        session_id = get_cookie("st_paywall_session_id")
-    except KeyError:
-        session_id = None
-
-    if session_id:
-        email = get_email_from_session_id(session_id)
-        st.session_state["email"] = email
-        return email
-
     try:
         token_from_params = get_access_token_from_query_params(client, redirect_url)
     except KeyError:
         return None
 
     user_info = decode_user(token=token_from_params["id_token"])
-
-    st.session_state["email"] = user_info["email"]
-
-    session_id = get_new_session_id(user_info["email"])
-
-    set_cookie("st_paywall_session_id", session_id, duration_days=1)
-    # set_cookie("email", user_info["email"], duration_days=1)
 
     return user_info["email"]
