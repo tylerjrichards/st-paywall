@@ -20,7 +20,7 @@ Basic example: https://subscription.streamlit.app
 
 # 🥟 st-paywall
 
-<strong>A python package for creating paid Streamlit apps with a paywall! </strong>
+<strong>A python package for creating paywalled Streamlit apps! </strong>
 
 ## Why st-paywall?
 
