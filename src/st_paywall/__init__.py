@@ -1,1 +1,1 @@
-from .aggregate_auth import add_auth
+from .aggregate_auth import add_auth  # noqa

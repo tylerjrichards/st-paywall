@@ -13,6 +13,6 @@ license = {text = "MIT"}
 dependencies = [
     "stripe",
     "httpx-oauth",
-    "pyjwt"
+    "pyjwt",
 ]
 requires-python = ">=3.8.0"

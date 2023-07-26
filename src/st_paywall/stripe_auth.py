@@ -2,9 +2,14 @@ import streamlit as st
 import stripe
 import urllib.parse
 
-testing_mode = st.secrets.get("testing_mode", False)
-stripe.api_key = st.secrets["stripe_api_key_test"] if testing_mode else st.secrets["stripe_api_key"]
-stripe_link = st.secrets["stripe_link_test"] if testing_mode else st.secrets["stripe_link"]
+
+def get_api_key() -> str:
+    testing_mode = st.secrets.get("testing_mode", False)
+    return (
+        st.secrets["stripe_api_key_test"]
+        if testing_mode
+        else st.secrets["stripe_api_key"]
+    )
 
 
 def redirect_button(
@@ -13,11 +18,18 @@ def redirect_button(
     color="#FD504D",
     payment_provider: str = "stripe",
 ):
+    testing_mode = st.secrets.get("testing_mode", False)
+    stripe.api_key = get_api_key()
+    stripe_link = (
+        st.secrets["stripe_link_test"] if testing_mode else st.secrets["stripe_link"]
+    )
     encoded_email = urllib.parse.quote(customer_email)
     if payment_provider == "stripe":
         button_url = f"{stripe_link}?prefilled_email={encoded_email}"
     elif payment_provider == "bmac":
         button_url = f"{st.secrets['bmac_link']}"
+    else:
+        raise ValueError("payment_provider must be 'stripe' or 'bmac'")
 
     st.sidebar.markdown(
         f"""
@@ -38,6 +50,7 @@ def redirect_button(
 
 
 def get_customer_emails():
+    stripe.api_key = get_api_key()
     customers = stripe.Customer.list()
     emails = []
     for i in customers["data"]:
