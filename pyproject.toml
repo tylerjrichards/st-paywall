@@ -3,7 +3,7 @@ requires = ["setuptools", "wheel"]
 
 [project]
 name = "st-paywall"
-version = "0.1.3"
+version = "0.1.5"
 description = "A Python package for creating subscription Streamlit apps"
 authors = [
     {name = "Tyler Richards", email = "tylerjrichards@gmail.com"}
