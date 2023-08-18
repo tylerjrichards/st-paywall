@@ -1,6 +1,6 @@
 import streamlit as st
 from .google_auth import get_logged_in_user_email, show_login_button
-from .stripe_auth import get_customer_emails, redirect_button
+from .stripe_auth import is_active_subscriber, redirect_button
 from .buymeacoffee_auth import get_bmac_payers
 
 payment_provider = st.secrets.get("payment_provider", "stripe")
@@ -20,13 +20,13 @@ def require_auth():
         show_login_button()
         st.stop()
     if payment_provider == "stripe":
-        customer_emails = get_customer_emails()
+        is_subscriber = user_email and is_active_subscriber(user_email)
     elif payment_provider == "bmac":
-        customer_emails = get_bmac_payers()
+        is_subscriber = user_email and user_email in get_bmac_payers()
     else:
         raise ValueError("payment_provider must be 'stripe' or 'bmac'")
 
-    if user_email not in customer_emails:
+    if not is_subscriber:
         redirect_button(
             text="Subscribe now!",
             customer_email=user_email,
@@ -34,7 +34,7 @@ def require_auth():
         )
         st.session_state.user_subscribed = False
         st.stop()
-    elif user_email in customer_emails:
+    elif is_subscriber:
         st.session_state.user_subscribed = True
 
     if st.sidebar.button("Logout", type="primary"):
@@ -46,9 +46,9 @@ def require_auth():
 def optional_auth():
     user_email = get_logged_in_user_email()
     if payment_provider == "stripe":
-        customer_emails = get_customer_emails()
+        is_subscriber = user_email and is_active_subscriber(user_email)
     elif payment_provider == "bmac":
-        customer_emails = get_bmac_payers()
+        is_subscriber = user_email and user_email in get_bmac_payers()
     else:
         raise ValueError("payment_provider must be 'stripe' or 'bmac'")
 
@@ -57,14 +57,14 @@ def optional_auth():
         st.session_state.email = ""
         st.sidebar.markdown("")
 
-    if user_email and user_email not in customer_emails:
+    if not is_subscriber:
         redirect_button(
             text="Subscribe now!", customer_email="", payment_provider=payment_provider
         )
         st.sidebar.markdown("")
         st.session_state.user_subscribed = False
 
-    elif user_email in customer_emails:
+    elif is_subscriber:
         st.session_state.user_subscribed = True
 
     if st.session_state.email != "":

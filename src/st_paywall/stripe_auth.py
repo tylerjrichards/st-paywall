@@ -19,12 +19,14 @@ def redirect_button(
     payment_provider: str = "stripe",
 ):
     testing_mode = st.secrets.get("testing_mode", False)
-    stripe.api_key = get_api_key()
-    stripe_link = (
-        st.secrets["stripe_link_test"] if testing_mode else st.secrets["stripe_link"]
-    )
     encoded_email = urllib.parse.quote(customer_email)
     if payment_provider == "stripe":
+        stripe.api_key = get_api_key()
+        stripe_link = (
+            st.secrets["stripe_link_test"]
+            if testing_mode
+            else st.secrets["stripe_link"]
+        )
         button_url = f"{stripe_link}?prefilled_email={encoded_email}"
     elif payment_provider == "bmac":
         button_url = f"{st.secrets['bmac_link']}"
@@ -49,10 +51,14 @@ def redirect_button(
     )
 
 
-def get_customer_emails():
+def is_active_subscriber(email: str) -> bool:
     stripe.api_key = get_api_key()
-    customers = stripe.Customer.list()
-    emails = []
-    for i in customers["data"]:
-        emails.append(i["email"])
-    return emails
+    customers = stripe.Customer.list(email=email)
+    try:
+        customer = customers.data[0]
+    except IndexError:
+        return False
+
+    subscriptions = stripe.Subscription.list(customer=customer["id"])
+
+    return len(subscriptions) > 0
