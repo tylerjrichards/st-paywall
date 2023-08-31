@@ -3,8 +3,11 @@ from typing import Optional
 
 import jwt
 import streamlit as st
+from extra_streamlit_components import CookieManager
 from httpx_oauth.clients.google import GoogleOAuth2
 from httpx_oauth.oauth2 import OAuth2Token
+
+from st_paywall import EMAIL_COOKIE
 
 testing_mode = st.secrets.get("testing_mode", False)
 
@@ -98,9 +101,10 @@ def show_login_button():
     markdown_button(authorization_url, "Login with Google")
 
 
-def get_logged_in_user_email() -> Optional[str]:
-    if "email" in st.session_state:
-        return st.session_state.email
+def get_logged_in_user_email(cookie_manager: CookieManager) -> Optional[str]:
+    email_cookie = cookie_manager.get(EMAIL_COOKIE)
+    if email_cookie is not None and email_cookie != "":
+        return email_cookie
 
     try:
         token_from_params = get_access_token_from_query_params(client, redirect_url)
@@ -109,6 +113,6 @@ def get_logged_in_user_email() -> Optional[str]:
 
     user_info = decode_user(token=token_from_params["id_token"])
 
-    st.session_state["email"] = user_info["email"]
+    cookie_manager.set(EMAIL_COOKIE, user_info["email"])
 
     return user_info["email"]

@@ -1,9 +1,13 @@
 import streamlit as st
+import extra_streamlit_components as stx
+
+from . import EMAIL_COOKIE, SUBSCRIBED_COOKIE
 from .google_auth import get_logged_in_user_email, show_login_button
 from .stripe_auth import is_active_subscriber, redirect_button
 from .buymeacoffee_auth import get_bmac_payers
 
 payment_provider = st.secrets.get("payment_provider", "stripe")
+cookie_manager = stx.CookieManager()
 
 
 def add_auth(required=True):
@@ -14,7 +18,7 @@ def add_auth(required=True):
 
 
 def require_auth():
-    user_email = get_logged_in_user_email()
+    user_email = get_logged_in_user_email(cookie_manager)
 
     if not user_email:
         show_login_button()
@@ -32,19 +36,19 @@ def require_auth():
             customer_email=user_email,
             payment_provider=payment_provider,
         )
-        st.session_state.user_subscribed = False
+        cookie_manager.set(SUBSCRIBED_COOKIE, False)
         st.stop()
     elif is_subscriber:
-        st.session_state.user_subscribed = True
+        cookie_manager.set(SUBSCRIBED_COOKIE, True)
 
     if st.sidebar.button("Logout", type="primary"):
-        del st.session_state.email
-        del st.session_state.user_subscribed
+        cookie_manager.delete(EMAIL_COOKIE)
+        cookie_manager.delete(SUBSCRIBED_COOKIE)
         st.experimental_rerun()
 
 
 def optional_auth():
-    user_email = get_logged_in_user_email()
+    user_email = get_logged_in_user_email(cookie_manager)
     if payment_provider == "stripe":
         is_subscriber = user_email and is_active_subscriber(user_email)
     elif payment_provider == "bmac":
@@ -54,7 +58,7 @@ def optional_auth():
 
     if not user_email:
         show_login_button()
-        st.session_state.email = ""
+        cookie_manager.set(EMAIL_COOKIE, "")
         st.sidebar.markdown("")
 
     if not is_subscriber:
@@ -62,13 +66,14 @@ def optional_auth():
             text="Subscribe now!", customer_email="", payment_provider=payment_provider
         )
         st.sidebar.markdown("")
-        st.session_state.user_subscribed = False
+        cookie_manager.set(SUBSCRIBED_COOKIE, False)
 
     elif is_subscriber:
-        st.session_state.user_subscribed = True
+        cookie_manager.set(SUBSCRIBED_COOKIE, True)
 
-    if st.session_state.email != "":
+    email_cookie = cookie_manager.get(EMAIL_COOKIE)
+    if email_cookie is not None and email_cookie != "":
         if st.sidebar.button("Logout", type="primary"):
-            del st.session_state.email
-            del st.session_state.user_subscribed
+            cookie_manager.delete(EMAIL_COOKIE)
+            cookie_manager.delete(SUBSCRIBED_COOKIE)
             st.experimental_rerun()

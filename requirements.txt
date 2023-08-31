@@ -3,3 +3,4 @@ httpx-oauth
 pyjwt
 st-paywall
 mkdocs
+extra_streamlit_components
