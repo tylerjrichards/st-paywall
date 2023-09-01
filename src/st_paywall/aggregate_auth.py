@@ -1,7 +1,7 @@
 import streamlit as st
 import extra_streamlit_components as stx
 
-from . import EMAIL_COOKIE, SUBSCRIBED_COOKIE
+from .consts import EMAIL_COOKIE, SUBSCRIBED_COOKIE
 from .google_auth import get_logged_in_user_email, show_login_button
 from .stripe_auth import is_active_subscriber, redirect_button
 from .buymeacoffee_auth import get_bmac_payers

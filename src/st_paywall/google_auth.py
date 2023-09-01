@@ -7,7 +7,7 @@ from extra_streamlit_components import CookieManager
 from httpx_oauth.clients.google import GoogleOAuth2
 from httpx_oauth.oauth2 import OAuth2Token
 
-from st_paywall import EMAIL_COOKIE
+from .consts import EMAIL_COOKIE
 
 testing_mode = st.secrets.get("testing_mode", False)
 
