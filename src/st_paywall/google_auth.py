@@ -91,11 +91,11 @@ def get_access_token_from_query_params(
     return token
 
 
-def show_login_button():
+def show_login_button(text: Optional[str] = "Login with Google", color="#FD504D", sidebar: bool = True):
     authorization_url = asyncio.run(
         get_authorization_url(client=client, redirect_url=redirect_url)
     )
-    markdown_button(authorization_url, "Login with Google")
+    markdown_button(authorization_url, text, color, sidebar)
 
 
 def get_logged_in_user_email() -> Optional[str]:
