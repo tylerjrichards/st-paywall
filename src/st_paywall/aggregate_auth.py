@@ -11,6 +11,7 @@ def add_auth(
     login_button_text: str = "Login with Google",
     login_button_color: str = "#FD504D",
     login_sidebar: bool = True,
+
 ):
     if required:
         require_auth(

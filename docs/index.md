@@ -4,7 +4,7 @@ I made st-paywall so data scientists and LLM developers can create small busines
 
 ## Overview
 
-This package gives you one basic function (`add_auth`) that adds subscription functionality to your Streamlit apps. `add_auth` will add both a Google login button if they are not logged in, and a Stripe (or Buy Me A Coffee) subscription button to your sidebar if they are not subscribed. If they are subscribed, `st.session_state.user_subscribed` will be true, and if they are logged in, `st.session_state.email` will have their email.
+This package gives you one basic function (`add_auth`) that adds subscription functionality to your Streamlit apps. `add_auth` will add both a Google login button if they are not logged in, and a Stripe (or Buy Me A Coffee) subscription button to your sidebar if they are not subscribed. If they are subscribed, `st.session_state.user_subscribed` will be true, and if they are logged in, `st.session_state.email` will have their email. `st.session_state.subscriptions` will have the info about their subscription(s).
 If the `required` parameter is `True`, the app will stop with `st.stop()` if the user is not logged in and subscribed. Otherwise, you the developer will have control over exactly how you want to paywall the apps!
 
 I hope you use this to create tons of value, and capture some of it with the magic of Streamlit.

@@ -60,5 +60,6 @@ def is_active_subscriber(email: str) -> bool:
         return False
 
     subscriptions = stripe.Subscription.list(customer=customer["id"])
+    st.session_state.subscriptions = subscriptions
 
     return len(subscriptions) > 0
