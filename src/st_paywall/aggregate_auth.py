@@ -7,7 +7,7 @@ payment_provider = st.secrets.get("payment_provider", "stripe")
 
 
 def add_auth(
-    required=True,
+    required: bool = True,
     login_button_text: str = "Login with Google",
     login_button_color: str = "#FD504D",
     login_sidebar: bool = True,
