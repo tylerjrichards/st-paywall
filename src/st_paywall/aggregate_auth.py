@@ -59,7 +59,7 @@ def require_auth(
     if st.sidebar.button("Logout", type="primary"):
         del st.session_state.email
         del st.session_state.user_subscribed
-        st.experimental_rerun()
+        st.rerun()
 
 
 def optional_auth(
@@ -96,4 +96,4 @@ def optional_auth(
         if st.sidebar.button("Logout", type="primary"):
             del st.session_state.email
             del st.session_state.user_subscribed
-            st.experimental_rerun()
+            st.rerun()
