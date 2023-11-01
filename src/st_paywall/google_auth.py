@@ -91,7 +91,9 @@ def get_access_token_from_query_params(
     return token
 
 
-def show_login_button(text: Optional[str] = "Login with Google", color="#FD504D", sidebar: bool = True):
+def show_login_button(
+    text: Optional[str] = "Login with Google", color="#FD504D", sidebar: bool = True
+):
     authorization_url = asyncio.run(
         get_authorization_url(client=client, redirect_url=redirect_url)
     )
