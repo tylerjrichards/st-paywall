@@ -8,7 +8,7 @@ The subscription link should be added to secrets.toml like this.
 stripe_link = 'https://buy.stripe.com/test_...'`
 ```
 
-You also need to create an [Standard API key](https://dashboard.stripe.com/test/apikeys), which just like subscription links have test options as well. Store your API key in your secrets file as stripe_api_key and you're off to the races. If you make a restricted API key instead of a Standard key, make sure to add read permission on Customers
+You also need to create an [Standard API key](https://dashboard.stripe.com/test/apikeys), which just like subscription links have test options as well. Store your API key in your secrets file as stripe_api_key and you're off to the races. If you make a restricted API key instead of a Standard key, make sure to add read permission on Customers and Subscriptions.
 
 
 ![Stripe API rest](images/stripe_api_rest.png)
