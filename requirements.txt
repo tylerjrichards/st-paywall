@@ -1,6 +1,8 @@
 stripe
 httpx-oauth
-pyjwt
+pyjwt[crypto]
+jwcrypto
+requests
 st-paywall
 mkdocs
 streamlit>=1.27.0

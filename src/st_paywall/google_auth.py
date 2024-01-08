@@ -5,6 +5,7 @@ import jwt
 import streamlit as st
 from httpx_oauth.clients.google import GoogleOAuth2
 from httpx_oauth.oauth2 import OAuth2Token
+from jwcrypto import jwk
 
 testing_mode = st.secrets.get("testing_mode", False)
 
@@ -18,14 +19,27 @@ redirect_url = (
 client = GoogleOAuth2(client_id=client_id, client_secret=client_secret)
 
 
-def decode_user(token: str):
-    """
-    :param token: jwt token
-    :return:
-    """
-    decoded_data = jwt.decode(jwt=token, options={"verify_signature": False})
+@st.cache_data(ttl=60 * 60 * 24)
+def get_jwks():
+    return requests.get("https://www.googleapis.com/oauth2/v3/certs").json()
 
-    return decoded_data
+
+def decode_user(token: str):
+    keys = get_jwks()["keys"]
+    for key in keys:
+        pem = jwk.JWK(**key).export_to_pem()
+        try:
+            decoded_token = jwt.decode(
+                token,
+                pem,
+                algorithms=[key["alg"]],
+                audience=client_id,  # Google OAuth2 Client ID
+                issuer="https://accounts.google.com",
+            )
+            return decoded_token
+        except jwt.exceptions.InvalidTokenError:
+            continue
+    raise ValueError("Token cannot be verified")
 
 
 async def get_authorization_url(client: GoogleOAuth2, redirect_url: str) -> str:
