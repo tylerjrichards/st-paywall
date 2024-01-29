@@ -8,3 +8,4 @@ streamlit-cookies-manager
 uuid
 asyncio
 typing-extensions
+six
