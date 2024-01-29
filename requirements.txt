@@ -1,7 +1,10 @@
 stripe
 httpx-oauth
-pyjwt
+PyJWT
 st-paywall
 mkdocs
 streamlit>=1.27.0
 streamlit-cookies-manager
+uuid
+asyncio
+typing-extensions
