@@ -11,6 +11,7 @@ def add_auth(
     login_button_text: str = "Login with Google",
     login_button_color: str = "#FD504D",
     login_sidebar: bool = True,
+    subscribe_button_text: str = "Subscribe now!",
 
 ):
     if required:
@@ -18,12 +19,14 @@ def add_auth(
             login_button_text=login_button_text,
             login_sidebar=login_sidebar,
             login_button_color=login_button_color,
+            subscribe_button_text=subscribe_button_text,
         )
     else:
         optional_auth(
             login_button_text=login_button_text,
             login_sidebar=login_sidebar,
             login_button_color=login_button_color,
+            subscribe_button_text=subscribe_button_text,
         )
 
 
@@ -31,6 +34,7 @@ def require_auth(
     login_button_text: str = "Login with Google",
     login_button_color: str = "#FD504D",
     login_sidebar: bool = True,
+    subscribe_button_text: str = "Subscribe now!",
 ):
     user_email = get_logged_in_user_email()
 
@@ -48,7 +52,7 @@ def require_auth(
 
     if not is_subscriber:
         redirect_button(
-            text="Subscribe now!",
+            text=subscribe_button_text,
             customer_email=user_email,
             payment_provider=payment_provider,
         )
@@ -67,6 +71,7 @@ def optional_auth(
     login_button_text: str = "Login with Google",
     login_button_color: str = "#FD504D",
     login_sidebar: bool = True,
+    subscribe_button_text: str = "Subscribe now!"
 ):
     user_email = get_logged_in_user_email()
     if payment_provider == "stripe":
@@ -85,7 +90,7 @@ def optional_auth(
 
     if not is_subscriber:
         redirect_button(
-            text="Subscribe now!", customer_email="", payment_provider=payment_provider
+            text=subscribe_button_text, customer_email="", payment_provider=payment_provider
         )
         st.sidebar.markdown("")
         st.session_state.user_subscribed = False
