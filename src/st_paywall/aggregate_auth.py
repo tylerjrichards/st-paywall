@@ -1,48 +1,29 @@
 import streamlit as st
-from .google_auth import get_logged_in_user_email, show_login_button
 from .stripe_auth import is_active_subscriber, redirect_button
 from .buymeacoffee_auth import get_bmac_payers
 
 payment_provider = st.secrets.get("payment_provider", "stripe")
 
 
-def add_auth(
-    required: bool = True,
-    login_button_text: str = "Login with Google",
-    login_button_color: str = "#FD504D",
-    login_sidebar: bool = True,
-
-):
+def add_auth(required: bool = True):
+    """Add authentication and payment verification to a Streamlit app."""
     if required:
-        require_auth(
-            login_button_text=login_button_text,
-            login_sidebar=login_sidebar,
-            login_button_color=login_button_color,
-        )
+        require_auth()
     else:
-        optional_auth(
-            login_button_text=login_button_text,
-            login_sidebar=login_sidebar,
-            login_button_color=login_button_color,
-        )
+        optional_auth()
 
 
-def require_auth(
-    login_button_text: str = "Login with Google",
-    login_button_color: str = "#FD504D",
-    login_sidebar: bool = True,
-):
-    user_email = get_logged_in_user_email()
-
-    if not user_email:
-        show_login_button(
-            text=login_button_text, color=login_button_color, sidebar=login_sidebar
-        )
+def require_auth():
+    """Require authentication and payment verification to proceed."""
+    if not st.experimental_user.email:
         st.stop()
+
+    user_email = st.experimental_user.email
+
     if payment_provider == "stripe":
-        is_subscriber = user_email and is_active_subscriber(user_email)
+        is_subscriber = is_active_subscriber(user_email)
     elif payment_provider == "bmac":
-        is_subscriber = user_email and user_email in get_bmac_payers()
+        is_subscriber = user_email in get_bmac_payers()
     else:
         raise ValueError("payment_provider must be 'stripe' or 'bmac'")
 
@@ -54,21 +35,14 @@ def require_auth(
         )
         st.session_state.user_subscribed = False
         st.stop()
-    elif is_subscriber:
+    else:
         st.session_state.user_subscribed = True
 
-    if st.sidebar.button("Logout", type="primary"):
-        del st.session_state.email
-        del st.session_state.user_subscribed
-        st.rerun()
 
+def optional_auth():
+    """Add optional authentication and payment verification."""
+    user_email = st.experimental_user.email
 
-def optional_auth(
-    login_button_text: str = "Login with Google",
-    login_button_color: str = "#FD504D",
-    login_sidebar: bool = True,
-):
-    user_email = get_logged_in_user_email()
     if payment_provider == "stripe":
         is_subscriber = user_email and is_active_subscriber(user_email)
     elif payment_provider == "bmac":
@@ -77,24 +51,18 @@ def optional_auth(
         raise ValueError("payment_provider must be 'stripe' or 'bmac'")
 
     if not user_email:
-        show_login_button(
-            text=login_button_text, color=login_button_color, sidebar=login_sidebar
-        )
-        st.session_state.email = ""
-        st.sidebar.markdown("")
-
-    if not is_subscriber:
-        redirect_button(
-            text="Subscribe now!", customer_email="", payment_provider=payment_provider
-        )
-        st.sidebar.markdown("")
         st.session_state.user_subscribed = False
-
-    elif is_subscriber:
+        redirect_button(
+            text="Subscribe now!",
+            customer_email="",
+            payment_provider=payment_provider
+        )
+    elif not is_subscriber:
+        st.session_state.user_subscribed = False
+        redirect_button(
+            text="Subscribe now!",
+            customer_email=user_email,
+            payment_provider=payment_provider,
+        )
+    else:
         st.session_state.user_subscribed = True
-
-    if st.session_state.email != "":
-        if st.sidebar.button("Logout", type="primary"):
-            del st.session_state.email
-            del st.session_state.user_subscribed
-            st.rerun()

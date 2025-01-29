@@ -3,7 +3,7 @@ requires = ["setuptools", "wheel"]
 
 [project]
 name = "st-paywall"
-version = "0.1.8"
+version = "1.0.0"
 description = "A Python package for creating subscription Streamlit apps"
 authors = [
     {name = "Tyler Richards", email = "tylerjrichards@gmail.com"}
@@ -14,6 +14,6 @@ dependencies = [
     "stripe",
     "httpx-oauth",
     "pyjwt",
-    "streamlit>=1.30.0",
+    "streamlit>=1.42.0",
 ]
 requires-python = ">=3.8.0"
