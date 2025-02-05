@@ -13,9 +13,9 @@ def add_auth(required: bool = True):
         optional_auth()
 
 
-def require_auth():
+def require_auth(redirect_button: bool = True, subscription_button_text: str = 'Subscribe now!'):
     """Require authentication and payment verification to proceed."""
-    if not st.experimental_user.email:
+    if not st.experimental_user.is_logged_in:
         st.stop()
 
     user_email = st.experimental_user.email
@@ -28,20 +28,22 @@ def require_auth():
         raise ValueError("payment_provider must be 'stripe' or 'bmac'")
 
     if not is_subscriber:
-        redirect_button(
-            text="Subscribe now!",
-            customer_email=user_email,
-            payment_provider=payment_provider,
-        )
+        if redirect_button:
+            redirect_button(
+                text=subscription_button_text,
+                customer_email=user_email,
+                payment_provider=payment_provider,
+            )
         st.session_state.user_subscribed = False
         st.stop()
     else:
         st.session_state.user_subscribed = True
 
 
-def optional_auth():
+def optional_auth(redirect_button: bool=True, subscription_button_text: str = 'Subscribe now!'):
     """Add optional authentication and payment verification."""
-    user_email = st.experimental_user.email
+    if st.experimental_user.is_logged_in:
+        user_email = st.experimental_user.email
 
     if payment_provider == "stripe":
         is_subscriber = user_email and is_active_subscriber(user_email)
@@ -52,17 +54,19 @@ def optional_auth():
 
     if not user_email:
         st.session_state.user_subscribed = False
-        redirect_button(
-            text="Subscribe now!",
-            customer_email="",
-            payment_provider=payment_provider
-        )
+        if redirect_button:
+            redirect_button(
+                text=subscription_button_text,
+                customer_email="",
+                payment_provider=payment_provider
+            )
     elif not is_subscriber:
         st.session_state.user_subscribed = False
-        redirect_button(
-            text="Subscribe now!",
-            customer_email=user_email,
-            payment_provider=payment_provider,
-        )
+        if redirect_button:
+            redirect_button(
+                text=subscription_button_text,
+                customer_email=user_email,
+                payment_provider=payment_provider,
+            )
     else:
         st.session_state.user_subscribed = True
