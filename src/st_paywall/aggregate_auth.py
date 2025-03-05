@@ -5,15 +5,15 @@ from .buymeacoffee_auth import get_bmac_payers
 payment_provider = st.secrets.get("payment_provider", "stripe")
 
 
-def add_auth(required: bool = True, show_redirect_button: bool = True, subscription_button_text: str = 'Subscribe now!'):
+def add_auth(required: bool = True, show_redirect_button: bool = True, subscription_button_text: str = 'Subscribe now!', button_color: str = "#FD504D", use_sidebar: bool = True):
     """Add authentication and payment verification to a Streamlit app."""
     if required:
-        require_auth(show_redirect_button, subscription_button_text)
+        require_auth(show_redirect_button, subscription_button_text, button_color, use_sidebar)
     else:
-        optional_auth(show_redirect_button, subscription_button_text)
+        optional_auth(show_redirect_button, subscription_button_text, button_color, use_sidebar)
 
 
-def require_auth(show_redirect_button: bool = True, subscription_button_text: str = 'Subscribe now!'):
+def require_auth(show_redirect_button: bool = True, subscription_button_text: str = 'Subscribe now!', button_color: str = "#FD504D", use_sidebar: bool = True):
     """Require authentication and payment verification to proceed."""
     if not st.experimental_user.is_logged_in:
         st.stop()
@@ -32,7 +32,9 @@ def require_auth(show_redirect_button: bool = True, subscription_button_text: st
             redirect_button(
                 text=subscription_button_text,
                 customer_email=user_email,
+                color=button_color,
                 payment_provider=payment_provider,
+                use_sidebar=use_sidebar,
             )
         st.session_state.user_subscribed = False
         st.stop()
@@ -40,7 +42,7 @@ def require_auth(show_redirect_button: bool = True, subscription_button_text: st
         st.session_state.user_subscribed = True
 
 
-def optional_auth(show_redirect_button: bool=True, subscription_button_text: str = 'Subscribe now!'):
+def optional_auth(show_redirect_button: bool=True, subscription_button_text: str = 'Subscribe now!', button_color: str = "#FD504D", use_sidebar: bool = True):
     """Add optional authentication and payment verification."""
     if st.experimental_user.is_logged_in:
         user_email = st.experimental_user.email
@@ -58,7 +60,9 @@ def optional_auth(show_redirect_button: bool=True, subscription_button_text: str
             redirect_button(
                 text=subscription_button_text,
                 customer_email="",
-                payment_provider=payment_provider
+                color=button_color,
+                payment_provider=payment_provider,
+                use_sidebar=use_sidebar,
             )
     elif not is_subscriber:
         st.session_state.user_subscribed = False
@@ -66,7 +70,9 @@ def optional_auth(show_redirect_button: bool=True, subscription_button_text: str
             redirect_button(
                 text=subscription_button_text,
                 customer_email=user_email,
+                color=button_color,
                 payment_provider=payment_provider,
+                use_sidebar=use_sidebar,
             )
     else:
         st.session_state.user_subscribed = True

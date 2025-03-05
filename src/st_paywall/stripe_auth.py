@@ -17,6 +17,7 @@ def redirect_button(
     customer_email: str,
     color="#FD504D",
     payment_provider: str = "stripe",
+    use_sidebar: bool = True,
 ):
     testing_mode = st.secrets.get("testing_mode", False)
     encoded_email = urllib.parse.quote(customer_email)
@@ -33,8 +34,7 @@ def redirect_button(
     else:
         raise ValueError("payment_provider must be 'stripe' or 'bmac'")
 
-    st.sidebar.markdown(
-        f"""
+    button_html = f"""
     <a href="{button_url}" target="_blank">
         <div style="
             display: inline-block;
@@ -51,9 +51,12 @@ def redirect_button(
             {text}
         </div>
     </a>
-    """,
-        unsafe_allow_html=True,
-    )
+    """
+    
+    if use_sidebar:
+        st.sidebar.markdown(button_html, unsafe_allow_html=True)
+    else:
+        st.markdown(button_html, unsafe_allow_html=True)
 
 
 def is_active_subscriber(email: str) -> bool:

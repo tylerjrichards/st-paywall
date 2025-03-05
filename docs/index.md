@@ -8,6 +8,36 @@ This package gives you one basic function (`add_auth`) that adds subscription fu
 
 If the `required` parameter is `True`, the app will stop with `st.stop()` if the user is not logged in and subscribed. Otherwise, you the developer will have control over exactly how you want to paywall the apps! 
 
+### `add_auth` Parameters
+
+The `add_auth` function accepts several parameters to customize its behavior:
+
+- `required` (bool, default=True): If True, the app will stop if the user is not logged in and subscribed.
+- `show_redirect_button` (bool, default=True): Whether to show the subscription button.
+- `subscription_button_text` (str, default='Subscribe now!'): The text to display on the subscription button.
+- `button_color` (str, default="#FD504D"): The color of the subscription button (CSS color value).
+- `use_sidebar` (bool, default=True): If True, the subscription button appears in the sidebar; if False, it appears in the main section.
+
+Example usage:
+
+```python
+from st_paywall import add_auth
+
+# Basic usage with defaults
+add_auth()
+
+# Customized usage
+add_auth(
+    required=False,  # Don't stop the app for non-subscribers
+    show_redirect_button=True,
+    subscription_button_text="Get Premium Access!",
+    button_color="#4CAF50",  # Green button
+    use_sidebar=False  # Show button in main section
+)
+```
+
+## Configuration
+
 I hope you use this to create tons of value, and capture some of it with the magic of Streamlit.
 
 This package expects that you have a `.streamlit/secrets.toml` file which you will have to create. Inside it, you will need to add your Stripe (or Buy Me A Coffee) API information that runs the subscription parts of the package. If you already have all of your information for your payment provider, here is how the package expects your secrets file to look.
