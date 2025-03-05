@@ -5,15 +5,15 @@ from .buymeacoffee_auth import get_bmac_payers
 payment_provider = st.secrets.get("payment_provider", "stripe")
 
 
-def add_auth(required: bool = True):
+def add_auth(required: bool = True, show_redirect_button: bool = True, subscription_button_text: str = 'Subscribe now!'):
     """Add authentication and payment verification to a Streamlit app."""
     if required:
-        require_auth()
+        require_auth(show_redirect_button, subscription_button_text)
     else:
-        optional_auth()
+        optional_auth(show_redirect_button, subscription_button_text)
 
 
-def require_auth(redirect_button: bool = True, subscription_button_text: str = 'Subscribe now!'):
+def require_auth(show_redirect_button: bool = True, subscription_button_text: str = 'Subscribe now!'):
     """Require authentication and payment verification to proceed."""
     if not st.experimental_user.is_logged_in:
         st.stop()
@@ -28,7 +28,7 @@ def require_auth(redirect_button: bool = True, subscription_button_text: str = '
         raise ValueError("payment_provider must be 'stripe' or 'bmac'")
 
     if not is_subscriber:
-        if redirect_button:
+        if show_redirect_button:
             redirect_button(
                 text=subscription_button_text,
                 customer_email=user_email,
@@ -40,7 +40,7 @@ def require_auth(redirect_button: bool = True, subscription_button_text: str = '
         st.session_state.user_subscribed = True
 
 
-def optional_auth(redirect_button: bool=True, subscription_button_text: str = 'Subscribe now!'):
+def optional_auth(show_redirect_button: bool=True, subscription_button_text: str = 'Subscribe now!'):
     """Add optional authentication and payment verification."""
     if st.experimental_user.is_logged_in:
         user_email = st.experimental_user.email
@@ -54,7 +54,7 @@ def optional_auth(redirect_button: bool=True, subscription_button_text: str = 'S
 
     if not user_email:
         st.session_state.user_subscribed = False
-        if redirect_button:
+        if show_redirect_button:
             redirect_button(
                 text=subscription_button_text,
                 customer_email="",
@@ -62,7 +62,7 @@ def optional_auth(redirect_button: bool=True, subscription_button_text: str = 'S
             )
     elif not is_subscriber:
         st.session_state.user_subscribed = False
-        if redirect_button:
+        if show_redirect_button:
             redirect_button(
                 text=subscription_button_text,
                 customer_email=user_email,

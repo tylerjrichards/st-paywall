@@ -40,7 +40,7 @@ def redirect_button(
             display: inline-block;
             padding: 0.5em 1em;
             color: #FFFFFF;
-            background-color: rgb(255, 75, 75);
+            background-color: {color};
             border-radius: 0.25rem;
             border: 1px solid rgba(49, 51, 63, 0.2);
             text-decoration: none;
