@@ -54,9 +54,9 @@ def redirect_button(
     """
     
     if use_sidebar:
-        st.sidebar.markdown(button_html, unsafe_allow_html=True)
+        st.sidebar.html(button_html)
     else:
-        st.markdown(button_html, unsafe_allow_html=True)
+        st.html(button_html)
 
 
 def is_active_subscriber(email: str) -> bool:

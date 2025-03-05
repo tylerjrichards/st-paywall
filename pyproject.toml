@@ -12,6 +12,6 @@ readme = "README.md"
 license = {text = "MIT"}
 dependencies = [
     "stripe",
-    "streamlit-nightly",
+    "streamlit>=1.42.0",
 ]
 requires-python = ">=3.8.0"
