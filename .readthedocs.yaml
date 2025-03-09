@@ -18,8 +18,7 @@ mkdocs:
 # Optionally declare the Python requirements required to build your docs
 python:
   install:
-    - requirements:
-        path: requirements.txt
+    - requirements: requirements.txt
 
 site_name: st-paywall
 site_url: https://github.com/
