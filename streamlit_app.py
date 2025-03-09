@@ -13,9 +13,8 @@ else:
     if st.button("Log out"):
         st.logout()
     st.write(f"Hello, {st.experimental_user.name}!")
+    st.write('Now we can use this to check if the user is a subscriber!')
+    add_auth(required=True, show_redirect_button=True, use_sidebar=False)
 
-st.write('Now we can use this to check if the user is a subscriber!')
-add_auth(required=True, show_redirect_button=True, use_sidebar=False)
-
-st.write("Congrats, you are subscribed!")
-st.write("the email of the user is " + str(st.experimental_user.email))
+    st.write("Congrats, you are subscribed!")
+    st.write("the email of the user is " + str(st.experimental_user.email))
