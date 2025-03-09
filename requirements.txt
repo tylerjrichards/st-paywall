@@ -3,4 +3,4 @@ httpx-oauth
 pyjwt
 st-paywall
 mkdocs
-streamlit>=1.30.0
+streamlit>=1.42.0
