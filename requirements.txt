@@ -1,6 +1,6 @@
 stripe
 httpx-oauth
 pyjwt
-st-paywall
+st-paywall==1.0.0
 mkdocs
 streamlit>=1.42.0
