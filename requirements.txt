@@ -4,3 +4,4 @@ pyjwt
 st-paywall==1.0.0
 mkdocs
 streamlit>=1.42.0
+authlib>=1.3.2
