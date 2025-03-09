@@ -15,7 +15,7 @@ def get_api_key() -> str:
 def redirect_button(
     text: str,
     customer_email: str,
-    color="#FD504D",
+    color="#FF4B4B",  # Default Streamlit primary button color
     payment_provider: str = "stripe",
     use_sidebar: bool = True,
 ):
@@ -34,20 +34,28 @@ def redirect_button(
     else:
         raise ValueError("payment_provider must be 'stripe' or 'bmac'")
 
+    # Streamlit-like button styling
     button_html = f"""
     <a href="{button_url}" target="_blank">
         <div style="
-            display: inline-block;
-            padding: 0.5em 1em;
-            color: #FFFFFF;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1rem;
             background-color: {color};
-            border-radius: 0.25rem;
-            border: 1px solid rgba(49, 51, 63, 0.2);
-            text-decoration: none;
-            text-align: center;
-            cursor: pointer;
+            color: white;
+            font-size: 14px;
             font-weight: 400;
-            box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 2px;">
+            line-height: 1.6;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 0.25rem;
+            border: none;
+            cursor: pointer;
+            box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            width: 100%;
+            margin-bottom: 0.5rem;">
             {text}
         </div>
     </a>
