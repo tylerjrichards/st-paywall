@@ -34,6 +34,9 @@ def redirect_button(
     else:
         raise ValueError("payment_provider must be 'stripe' or 'bmac'")
 
+    # Set width based on placement
+    width_style = "width: 100%;" if use_sidebar else "width: auto; min-width: 120px; max-width: 240px;"
+    
     # Streamlit-like button styling
     button_html = f"""
     <a href="{button_url}" target="_blank">
@@ -54,7 +57,7 @@ def redirect_button(
             cursor: pointer;
             box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px;
             transition: background-color 0.2s ease, transform 0.1s ease;
-            width: 100%;
+            {width_style}
             margin-bottom: 0.5rem;">
             {text}
         </div>
