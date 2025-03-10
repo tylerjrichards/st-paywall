@@ -6,63 +6,102 @@ Author: [@tylerjrichards](https://twitter.com/tylerjrichards)
 
 Kind consultant: [@blackary](https://github.com/blackary)
 
+# st-paywall 🎈
+
+A Python package for creating paywalled Streamlit apps! 
+
+I made st-paywall so data scientists and LLM developers can create small businesses around their Streamlit apps. Every week I see dozens of new incredible apps built in Streamlit that are adored by users, but eventually shut down or moved off of Streamlit as payment integration is too hard. This is my attempt at a dead-simple API around payments, abstracting it away into a single function (`add_auth`). Enjoy!
+
 ## Installation
 
-```sh
+```bash
 pip install st-paywall
 ```
 
-## See it in action
+## Quick Start
 
-Basic example: https://subscription.streamlit.app
+1. Set up Streamlit's native authentication in your app's secrets.toml file
+2. Add your payment provider configuration (Stripe or Buy Me A Coffee)
+3. Import and use `add_auth()` in your app
 
-<p>&nbsp;</p>
+```python
+import streamlit as st
+from st_paywall import add_auth
 
-# 🥟 st-paywall
+st.title("My Subscription App")
 
-<strong>A python package for creating paywalled Streamlit apps! </strong>
+# Handle Streamlit's native authentication
+if not st.experimental_user.is_logged_in:
+    if st.button("Log in using Streamlit's native authentication"):
+        st.login()
+else:
+    # Add subscription check for logged-in users
+    add_auth()
+    
+    # Your app code here - only runs for subscribed users
+    st.write("Welcome, subscriber!")
+    st.write(f"Your email is: {st.experimental_user.email}")
+```
 
-## Why st-paywall?
+## Configuration
 
-I made st-paywall so data scientists and LLM developers can create small businesses around their Streamlit apps. Every week I see dozens of new incredible apps built in Streamlit that are adored by users, but eventually shut down or moved off of Streamlit as authentication and payment integration are too hard. This is my attempt at a dead-simple API around each, abstracting the both away into a single function (`add_auth`). Enjoy!
+Create a `.streamlit/secrets.toml` file with your payment provider settings:
+
+### For Stripe:
+```toml
+payment_provider = "stripe"
+testing_mode = true  # Set to false for production
+stripe_api_key_test = "sk_test_..."
+stripe_api_key = "sk_live_..."
+stripe_link = "https://buy.stripe.com/..."
+stripe_link_test = "https://buy.stripe.com/test_..."
+```
+
+### For Buy Me A Coffee:
+```toml
+payment_provider = "bmac"
+bmac_api_key = "ey..."
+bmac_link = "https://www.buymeacoffee.com/..."
+```
+
+## Customization
+
+The `add_auth()` function accepts several parameters to customize its behavior:
+
+```python
+add_auth(
+    required=True,  # Stop the app if user is not subscribed
+    show_redirect_button=True,  # Show the subscription button
+    subscription_button_text="Subscribe Now!",  # Custom button text
+    button_color="#FF4B4B",  # Button color (CSS color value)
+    use_sidebar=True  # Show button in sidebar vs main section
+)
+```
+
+## Example App
+
+```python
+import streamlit as st
+from st_paywall import add_auth
+
+st.title("My Subscription App")
+
+if not st.experimental_user.is_logged_in:
+    st.write("Please log in to access this app")
+    if st.button("Log in"):
+        st.login()
+else:
+    add_auth(required=True)
+    st.write("Welcome to the premium content!")
+```
 
 ## Documentation
 
-Once you configure the authentication and subscription on `st.secrets`, you can use the the library methods to conditionally render the content of the page:
+For full documentation, visit [st-paywall.readthedocs.io](https://st-paywall.readthedocs.io/)
 
-```python
-from st_paywall import add_auth
+## License
 
-add_auth(required=True)
-
-#after authentication, the email and subscription status is stored in session state
-st.write(st.session_state.email)
-st.write(st.session_state.user_subscribed)
-```
-
-If the `required` parameter is `True`, the app will stop with `st.stop()` if the user is not logged in and subscribed. Otherwise, you the developer will have control over exactly how you want to paywall the apps!
-
-I hope you use this to create tons of value, and capture some of it with the magic of Streamlit.
-
-This package expects that you have a `.streamlit/secrets.toml` file which you will have to create. Inside it, you will need to add your Stripe (or Buy Me A Coffee) and Google API information that runs the authentication and subscription parts of the package. If you already have all of your information for your payment and authentication providers, here is how the package expects your secrets file to look.
-
-```toml
-testing_mode = true
-payment_provider = "stripe" #bmac if using Buy Me A Coffee
-stripe_api_key_test = "sk_test_..." #only needed if using Stripe
-stripe_api_key = "sk_live_..." #only needed if using Stripe
-stripe_link = "https://buy.stripe.com/..." #only needed if using Stripe
-stripe_link_test = "https://buy.stripe.com/test_..." #only needed if using Stripe
-client_id = "590..."
-client_secret = "GO..."
-redirect_url_test = 'http://localhost:8501/'
-redirect_url = "https://your_app_url..."
-bmac_api_key = "ey..." #only needed if using buy me a coffee
-bmac_link = "https://www.buymeacoffee.com/..." #only needed if using buy me a coffee
-```
-
-The full documentation for the usage of the library can be found at https://st-paywall.readthedocs.io/.
-
+MIT
 
 ### Feedback:
 
