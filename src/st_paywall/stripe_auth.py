@@ -4,11 +4,11 @@ import urllib.parse
 
 
 def get_api_key() -> str:
-    testing_mode = st.secrets.get("testing_mode", False)
+    testing_mode = st.secrets.get("testing_mode") or os.getenv("TESTING_MODE", False)
     return (
-        st.secrets["stripe_api_key_test"]
+        st.secrets["stripe_api_key_test"] or os.getenv("STRIPE_API_KEY_TEST")
         if testing_mode
-        else st.secrets["stripe_api_key"]
+        else st.secrets["stripe_api_key"] or os.getenv("STRIPE_API_KEY")
     )
 
 
@@ -19,14 +19,14 @@ def redirect_button(
     payment_provider: str = "stripe",
     use_sidebar: bool = True,
 ):
-    testing_mode = st.secrets.get("testing_mode", False)
+    testing_mode = st.secrets.get("testing_mode") or os.getenv("TESTING_MODE", False)
     encoded_email = urllib.parse.quote(customer_email)
     if payment_provider == "stripe":
         stripe.api_key = get_api_key()
         stripe_link = (
-            st.secrets["stripe_link_test"]
+            st.secrets["stripe_link_test"] or os.getenv("STRIPE_LINK_TEST")
             if testing_mode
-            else st.secrets["stripe_link"]
+            else st.secrets["stripe_link"] or os.getenv("STRIPE_LINK")
         )
         button_url = f"{stripe_link}?prefilled_email={encoded_email}"
     elif payment_provider == "bmac":
