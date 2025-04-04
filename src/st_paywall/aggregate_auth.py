@@ -2,7 +2,7 @@ import streamlit as st
 from .stripe_auth import is_active_subscriber as is_stripe_subscriber, redirect_button
 from .buymeacoffee_auth import get_bmac_payers
 
-payment_provider = st.secrets.get("payment_provider") or os.getenv("PAYMENT_PROVIDER", "stripe")
+payment_provider = st.secrets["api_keys"]["payment_provider"]
 
 
 def add_auth(required: bool = True, 
