@@ -31,7 +31,7 @@ from st_paywall import add_auth
 st.title("My Subscription App")
 
 # Handle Streamlit's native authentication
-if not st.experimental_user.is_logged_in:
+if not st.user.is_logged_in:
     if st.button("Log in using Streamlit's native authentication"):
         st.login()
 else:
@@ -40,7 +40,7 @@ else:
     
     # Your app code here - only runs for subscribed users
     st.write("Welcome, subscriber!")
-    st.write(f"Your email is: {st.experimental_user.email}")
+    st.write(f"Your email is: {st.user.email}")
 ```
 
 ## Configuration
@@ -86,7 +86,7 @@ from st_paywall import add_auth
 
 st.title("My Subscription App")
 
-if not st.experimental_user.is_logged_in:
+if not st.user.is_logged_in:
     st.write("Please log in to access this app")
     if st.button("Log in"):
         st.login()
