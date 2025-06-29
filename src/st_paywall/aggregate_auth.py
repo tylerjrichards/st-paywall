@@ -34,10 +34,10 @@ def is_subscriber(email: str) -> bool:
 
 def require_auth(show_redirect_button: bool = True, subscription_button_text: str = 'Subscribe now!', button_color: str = "#FD504D", use_sidebar: bool = True):
     """Require authentication and payment verification to proceed."""
-    if not st.experimental_user.is_logged_in:
+    if not st.user.is_logged_in:
         st.stop()
 
-    user_email = st.experimental_user.email
+    user_email = st.user.email
     is_subscribed = is_subscriber(user_email)
 
     if not is_subscribed:
@@ -58,8 +58,8 @@ def require_auth(show_redirect_button: bool = True, subscription_button_text: st
 def optional_auth(show_redirect_button: bool=True, subscription_button_text: str = 'Subscribe now!', button_color: str = "#FD504D", use_sidebar: bool = True):
     """Add optional authentication and payment verification."""
     user_email = None
-    if st.experimental_user.is_logged_in:
-        user_email = st.experimental_user.email
+    if st.user.is_logged_in:
+        user_email = st.user.email
     
     is_subscribed = user_email and is_subscriber(user_email)
 
