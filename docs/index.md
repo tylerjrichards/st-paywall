@@ -1,22 +1,41 @@
 # Home
 
-I made st-paywall so data scientists and LLM developers can create small businesses around their Streamlit apps. Every week I see dozens of new incredible apps built in Streamlit that are adored by users, but eventually shut down or moved off of Streamlit as payment integration is too hard. This is my attempt at a dead-simple API around payments, abstracting it away into a single function (`add_auth`). Enjoy!
+I made st-paywall so data scientists and LLM developers can create small
+businesses around their Streamlit apps. Every week I see dozens of new
+incredible apps built in Streamlit that are adored by users, but eventually shut
+down or moved off of Streamlit as payment integration is too hard. This is my
+attempt at a dead-simple API around payments, abstracting it away into a single
+function (`add_auth`). Enjoy!
 
 ## Overview
 
-This package gives you one basic function (`add_auth`) that adds subscription functionality to your Streamlit apps. `add_auth` works with Streamlit's native authentication system and adds a Stripe (or Buy Me A Coffee) subscription button if users are not subscribed. If they are subscribed, `st.session_state.user_subscribed` will be true, and you can access their email through `st.experimental_user.email`. `st.session_state.subscriptions` will have the info about their subscription(s), which you can use for more fine-grained control of your app logic. 
+This package gives you one basic function (`add_auth`) that adds subscription
+functionality to your Streamlit apps. `add_auth` works with Streamlit's native
+authentication system and adds a Stripe (or Buy Me A Coffee) subscription button
+if users are not subscribed. If they are subscribed,
+`st.session_state.user_subscribed` will be true, and you can access their email
+through `st.user.email`. `st.session_state.subscriptions` will have the info
+about their subscription(s), which you can use for more fine-grained control of
+your app logic.
 
-If the `required` parameter is `True`, the app will stop with `st.stop()` if the user is not logged in and subscribed. Otherwise, you the developer will have control over exactly how you want to paywall the apps! 
+If the `required` parameter is `True`, the app will stop with `st.stop()` if the
+user is not logged in and subscribed. Otherwise, you the developer will have
+control over exactly how you want to paywall the apps!
 
 ### `add_auth` Parameters
 
 The `add_auth` function accepts several parameters to customize its behavior:
 
-- `required` (bool, default=True): If True, the app will stop if the user is not logged in and subscribed.
-- `show_redirect_button` (bool, default=True): Whether to show the subscription button.
-- `subscription_button_text` (str, default='Subscribe now!'): The text to display on the subscription button.
-- `button_color` (str, default="#FD504D"): The color of the subscription button (CSS color value).
-- `use_sidebar` (bool, default=True): If True, the subscription button appears in the sidebar; if False, it appears in the main section.
+- `required` (bool, default=True): If True, the app will stop if the user is not
+  logged in and subscribed.
+- `show_redirect_button` (bool, default=True): Whether to show the subscription
+  button.
+- `subscription_button_text` (str, default='Subscribe now!'): The text to
+  display on the subscription button.
+- `button_color` (str, default="#FD504D"): The color of the subscription button
+  (CSS color value).
+- `use_sidebar` (bool, default=True): If True, the subscription button appears
+  in the sidebar; if False, it appears in the main section.
 
 Example usage:
 
@@ -38,9 +57,14 @@ add_auth(
 
 ## Configuration
 
-I hope you use this to create tons of value, and capture some of it with the magic of Streamlit.
+I hope you use this to create tons of value, and capture some of it with the
+magic of Streamlit.
 
-This package expects that you have a `.streamlit/secrets.toml` file which you will have to create. Inside it, you will need to add your Stripe (or Buy Me A Coffee) API information that runs the subscription parts of the package. If you already have all of your information for your payment provider, here is how the package expects your secrets file to look.
+This package expects that you have a `.streamlit/secrets.toml` file which you
+will have to create. Inside it, you will need to add your Stripe (or Buy Me A
+Coffee) API information that runs the subscription parts of the package. If you
+already have all of your information for your payment provider, here is how the
+package expects your secrets file to look.
 
 ```toml
 testing_mode = true
