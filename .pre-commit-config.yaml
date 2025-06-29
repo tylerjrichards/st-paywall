@@ -1,20 +1,95 @@
+---
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+
+# Default stages for hooks
+default_stages: [pre-commit, commit-msg, pre-push]
+
+# Default hook types to install
+default_install_hook_types: [pre-commit, commit-msg, pre-push]
 repos:
-- repo: https://github.com/charliermarsh/ruff-pre-commit
-  rev: v0.0.275
-  hooks:
-  - id: ruff
-    args:
-    - --fix
-- repo: https://github.com/psf/black
-  rev: 23.3.0
-  hooks:
-  - id: black
-- repo: https://github.com/pre-commit/mirrors-mypy
-  rev: v1.4.1
-  hooks:
-  - id: mypy
-    args:
-    - --ignore-missing-imports
-    - --follow-imports=silent
-    additional_dependencies:
-    - types-all
+  # Standard meta hooks
+  - repo: meta
+    hooks:
+      - id: check-hooks-apply  # Check hook applicability
+      - id: check-useless-excludes  # Check for unused excludes
+
+  # Basic file checks from pre-commit-hooks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0  # Use the latest stable version
+    hooks:
+      - id: check-added-large-files  # Prevent giant files from being committed
+      - id: check-case-conflict  # Check for files that would conflict on case-insensitive filesystems
+      - id: check-merge-conflict  # Check for files that contain merge conflict strings
+      - id: check-toml  # Check toml syntax
+      - id: check-yaml  # Check yaml syntax
+        args: [--unsafe]  # Allow unsafe constructs for flexibility (e.g., MkDocs)
+      - id: debug-statements  # Check for debugger imports and calls
+      - id: detect-private-key  # Checks for the presence of private keys
+      - id: end-of-file-fixer  # Ensures files end with a newline
+      - id: fix-byte-order-marker  # Removes utf-8 byte order marker
+      - id: mixed-line-ending  # Replaces or checks mixed line endings
+        args: [--fix=auto]
+      - id: trailing-whitespace  # Trims trailing whitespace
+
+  # Python linting and formatting with Ruff
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.11.13
+    hooks:
+      - id: ruff  # Run Ruff linter
+        args: [--fix, --exit-non-zero-on-fix]
+        types_or: [python, pyi]
+      - id: ruff-format  # Run Ruff formatter
+        types_or: [python, pyi]
+
+  # Formatting for various file types with Prettier
+  - repo: https://github.com/rbubley/mirrors-prettier
+    rev: v3.5.3
+    hooks:
+      - id: prettier
+        types_or: [markdown, html, css, scss, javascript, json]
+        args: [--prose-wrap=always]  # Wrap markdown prose
+        additional_dependencies:
+          - prettier@3.2.4  # Pin Prettier version
+          - prettier-plugin-sort-json@3.1.0  # Optional: Sort JSON keys
+
+  # Spell checking
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.4.1
+    hooks:
+      - id: codespell
+        args: [--write-changes]
+        additional_dependencies:
+          - tomli  # Needed for pyproject.toml configuration
+  - repo: https://github.com/lyz-code/yamlfix/
+    rev: 1.17.0
+    hooks:
+      - id: yamlfix
+
+  # TOML sorting
+  - repo: https://github.com/pappasam/toml-sort
+    rev: v0.24.2
+    hooks:
+      - id: toml-sort-fix
+        files: \.toml$
+
+  # Secret scanning
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.27.2
+    hooks:
+      - id: gitleaks
+
+  # Validate pyproject.toml structure
+  - repo: https://github.com/abravalheri/validate-pyproject
+    rev: v0.24.1
+    hooks:
+      - id: validate-pyproject
+        additional_dependencies: ['validate-pyproject-schema-store[all]']
+
+  # Optional: Security scanning with Bandit (Python specific)
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.8.3
+    hooks:
+      - id: bandit
+        args: [-c, pyproject.toml]  # Example: Configure via pyproject.toml
+        types: [python]

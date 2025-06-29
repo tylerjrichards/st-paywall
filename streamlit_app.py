@@ -1,4 +1,5 @@
 import streamlit as st
+
 from st_paywall import add_auth
 
 st.set_page_config(layout="wide")
@@ -13,7 +14,7 @@ else:
     if st.button("Log out"):
         st.logout()
     st.write(f"Hello, {st.user.name}!")
-    st.write('Now we can use this to check if the user is a subscriber!')
+    st.write("Now we can use this to check if the user is a subscriber!")
     add_auth(required=True, show_redirect_button=True, use_sidebar=False)
 
     st.write("Congrats, you are subscribed!")

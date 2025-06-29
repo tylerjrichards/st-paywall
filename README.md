@@ -8,9 +8,14 @@ Kind consultant: [@blackary](https://github.com/blackary)
 
 # st-paywall 🎈
 
-A Python package for creating paywalled Streamlit apps! 
+A Python package for creating paywalled Streamlit apps!
 
-I made st-paywall so data scientists and LLM developers can create small businesses around their Streamlit apps. Every week I see dozens of new incredible apps built in Streamlit that are adored by users, but eventually shut down or moved off of Streamlit as payment integration is too hard. This is my attempt at a dead-simple API around payments, abstracting it away into a single function (`add_auth`). Enjoy!
+I made st-paywall so data scientists and LLM developers can create small
+businesses around their Streamlit apps. Every week I see dozens of new
+incredible apps built in Streamlit that are adored by users, but eventually shut
+down or moved off of Streamlit as payment integration is too hard. This is my
+attempt at a dead-simple API around payments, abstracting it away into a single
+function (`add_auth`). Enjoy!
 
 ## Installation
 
@@ -37,7 +42,7 @@ if not st.user.is_logged_in:
 else:
     # Add subscription check for logged-in users
     add_auth()
-    
+
     # Your app code here - only runs for subscribed users
     st.write("Welcome, subscriber!")
     st.write(f"Your email is: {st.user.email}")
@@ -48,6 +53,7 @@ else:
 Create a `.streamlit/secrets.toml` file with your payment provider settings:
 
 ### For Stripe:
+
 ```toml
 payment_provider = "stripe"
 testing_mode = true  # Set to false for production
@@ -58,6 +64,7 @@ stripe_link_test = "https://buy.stripe.com/test_..."
 ```
 
 ### For Buy Me A Coffee:
+
 ```toml
 payment_provider = "bmac"
 bmac_api_key = "ey..."
@@ -97,7 +104,8 @@ else:
 
 ## Documentation
 
-For full documentation, visit [st-paywall.readthedocs.io](https://st-paywall.readthedocs.io/)
+For full documentation, visit
+[st-paywall.readthedocs.io](https://st-paywall.readthedocs.io/)
 
 ## License
 
@@ -105,4 +113,7 @@ MIT
 
 ### Feedback:
 
-If you have feedback about this package, please reach out to me on [twitter](https://twitter.com/tylerjrichards) or file an issue in [this repo](https://github.com/tylerjrichards/st-paywall/issues) and I will do my best to help you out.
+If you have feedback about this package, please reach out to me on
+[twitter](https://twitter.com/tylerjrichards) or file an issue in
+[this repo](https://github.com/tylerjrichards/st-paywall/issues) and I will do
+my best to help you out.
